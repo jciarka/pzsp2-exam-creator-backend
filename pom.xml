@@ -67,6 +67,34 @@
 
 	<build>
 		<plugins>
+<!--			<plugin>-->
+<!--				<groupId>org.flywaydb</groupId>-->
+<!--				<artifactId>flyway-maven-plugin</artifactId>-->
+<!--			</plugin>-->
+<!--			<plugin>-->
+<!--				<groupId>org.flywaydb</groupId>-->
+<!--				<artifactId>flyway-maven-plugin</artifactId>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<phase>generate-sources</phase>-->
+<!--						<goals>-->
+<!--							<goal>migrate</goal>-->
+<!--						</goals>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--				<configuration>-->
+<!--					<driver>oracle.jdbc.driver.OracleDriver</driver>-->
+<!--					<url>jdbc:oracle:thin:@localhost:1521:ORCLCDB</url>-->
+<!--					<user>SYS as SYSDBA</user>-->
+<!--					<password>Oradoc_db1</password>-->
+<!--					<baselineOnMigrate>true</baselineOnMigrate>-->
+<!--					<locations>-->
+<!--						<location>-->
+<!--							filesystem:src/main/resources/db/migration-->
+<!--						</location>-->
+<!--					</locations>-->
+<!--				</configuration>-->
+<!--			</plugin>-->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
