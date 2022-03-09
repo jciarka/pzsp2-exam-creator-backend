@@ -74,6 +74,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     http.authorizeRequests()
         .antMatchers("/api/auth/login").permitAll()
         .antMatchers("/api/auth/register").permitAll()
+        .antMatchers("/api/pdfGenerator/test").permitAll()
         .anyRequest().authenticated();
         // .and().formLogin()
         // .and().logout();
