@@ -15,11 +15,9 @@ import com.PZSP2.PFIMJ.models.auth.UserModel;
 import com.PZSP2.PFIMJ.services.RolesService;
 import com.PZSP2.PFIMJ.services.UsersService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,23 +31,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "api/auth/")
-public class AuthController {
-  @Autowired
-  UsersService uservice;
-
-  @Autowired
-  RolesService rservice;
+public class AuthController extends ControllerBase {
+  final UsersService uservice;
+  final RolesService rservice;
 
   private final AuthenticationManager authenticationManager;
   private final JwtTokenUtil jwtTokenUtil;
   private final UsersService userService;
 
   public AuthController(AuthenticationManager authenticationManager,
-      JwtTokenUtil jwtTokenUtil,
-      UsersService userService) {
+                        JwtTokenUtil jwtTokenUtil,
+                        UsersService userService, UsersService uservice, RolesService rservice) {
     this.authenticationManager = authenticationManager;
     this.jwtTokenUtil = jwtTokenUtil;
     this.userService = userService;
+    this.uservice = uservice;
+    this.rservice = rservice;
   }
 
   @PostMapping("login")
@@ -69,7 +66,7 @@ public class AuthController {
           this.userService.getUser(userDetails.getUsername()),
           token);
 
-      return ResponseEntity.ok().body(new Response<AuthResponse>(model));
+      return ResponseEntity.ok().body(new Response<>(model));
 
     } catch (Exception ex) {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -77,18 +74,18 @@ public class AuthController {
   }
 
   @PostMapping("register")
-  public ResponseEntity<Response<UserModel>> createAccount(@RequestBody AddUserModel request) throws Exception {
+  public ResponseEntity<Response<UserModel>> createAccount(@RequestBody AddUserModel request) {
 
       User user = userService.createAccount(request);
 
       if (user != null) {
         return ResponseEntity.ok()
-          .body(new Response<UserModel>(new UserModel(user)));
+          .body(new Response<>(new UserModel(user)));
       }
       
-      ArrayList<String> errors = new ArrayList<String>();
+      ArrayList<String> errors = new ArrayList<>();
       errors.add("Already exists account using this emial");
-      return ResponseEntity.ok().body(new Response<UserModel>(null, false, errors));
+      return ResponseEntity.ok().body(new Response<>(null, false, errors));
   }
 
   @GetMapping()
