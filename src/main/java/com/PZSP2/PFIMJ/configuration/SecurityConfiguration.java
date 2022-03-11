@@ -17,7 +17,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -75,6 +74,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers("/api/auth/login").permitAll()
         .antMatchers("/api/auth/register").permitAll()
         .antMatchers("/api/pdfGenerator/test").permitAll()
+        .antMatchers("/api/pdfGenerator/test2").permitAll()
         .anyRequest().authenticated();
         // .and().formLogin()
         // .and().logout();
