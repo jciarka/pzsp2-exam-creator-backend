@@ -1,26 +1,23 @@
 package com.PZSP2.PFIMJ.core.pdf;
 
-import com.github.rjeschke.txtmark.Configuration;
 import com.github.rjeschke.txtmark.Processor;
 import com.itextpdf.html2pdf.HtmlConverter;
-import com.itextpdf.io.codec.Base64.OutputStream;
+import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
-import com.itextpdf.io.image.ImageType;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
-import com.itextpdf.layout.element.IBlockElement;
-import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.*;
 import com.itextpdf.layout.property.HorizontalAlignment;
 
-import org.hibernate.result.Output;
+import com.itextpdf.layout.property.TextAlignment;
 import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
-
-import com.itextpdf.layout.element.IElement;
-import com.itextpdf.layout.element.Image;
+import org.springframework.stereotype.Component;
 
 import java.awt.Insets;
 import java.io.ByteArrayInputStream;
@@ -34,9 +31,9 @@ import java.awt.Graphics2D;
 import java.awt.Color;
 
 import javax.imageio.ImageIO;
-import javax.imageio.stream.FileImageOutputStream;
 
-public class ITextTestParser {
+@Component
+public class ITextTestParser implements ITestParser {
     private final ByteArrayOutputStream stream;
     private final PdfWriter writer;
     private final PdfDocument pdfDoc;
@@ -57,82 +54,92 @@ public class ITextTestParser {
         document = new Document(pdfDoc);
     }
 
+    @Override
+    public void addTestHeader(String headerText) throws IOException {
+        Text taskHeaderObject = new Text(headerText);
+        PdfFont font = PdfFontFactory.createFont(FontConstants.HELVETICA_BOLD);
+        taskHeaderObject.setFont(font);
+
+        Text nameAndIndex = new Text("\n\nImie i Nazwisko: ___________________________________________,    nr indeksu: _______");
+
+        Paragraph para = new Paragraph(taskHeaderObject);
+        para.setTextAlignment(TextAlignment.CENTER);
+        para.add(nameAndIndex);
+
+        document.add(para);
+        addBlankLines(0);
+    }
+
+    @Override
+    public void addTaskHeader(int taskNumber, int TaskPoints) throws IOException {
+        String taskHeader = "zad " + taskNumber + ". (" + TaskPoints + "pkt)";
+        // Creating text object
+        Text taskHeaderObject = new Text(taskHeader);
+
+        PdfFont font = PdfFontFactory.createFont(FontConstants.HELVETICA_BOLD);
+        taskHeaderObject.setFont(font);
+        Paragraph taskHeaderParagraph = new Paragraph(taskHeaderObject);
+        taskHeaderParagraph.setMultipliedLeading(0);
+
+        document.add(taskHeaderParagraph);
+    }
+
+    @Override
     public void addPlainTextParagraph(String text) {
-        Paragraph para = new Paragraph(text);
+        Text textObj = new Text(text);
+        Paragraph para = new Paragraph(textObj);
         document.add(para);
     }
 
-    public void addHtmlTextParagraph(String html) throws IOException {
-        try {
-            html = "<span style=\"font-family: Helvetica; margin: 0px;\">" + html + "</span>";
-            InputStream in = new ByteArrayInputStream(html.getBytes());
-            List<IElement> elements = HtmlConverter.convertToElements(in);
-            for (IElement element : elements) {
-                document.add((IBlockElement)element);
-            } 
-        } catch (Exception e) {
-            addHtmlTextParagraph("<strong style=\"color: red;\"> UWAGA! Wyrażenie LaTeX jest nieprawodłowe!</strong>");
+    @Override
+    public void addBlankLines(int count) {
+        for (int i = 0; i < count; i++) {
+            Paragraph para = new Paragraph("\n");
+            document.add(para);
         }
     }
 
-    // public void addMarkdownParagraph(String markdown) throws IOException  {
-    //     ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        
-    //     try {
-    //         Markdown2PdfConverter
-    //         .newConverter()
-    //         .readFrom(() -> markdown)
-    //         .writeTo(out -> {
-    //             stream.write(out, 0, out.length);
-    //         })
-    //         .doIt();
-    //     } catch (ConversionException e) {
-    //         return;
-    //     } catch (Markdown2PdfLogicException e) {
-    //         return;
-    //     }
-    //     // } catch (NullPointerException e) {
-    //     //     return;
-    //     // } catch (IndexOutOfBoundsException  e) {
-    //     //     return;
-    //     // }
+    @Override
+    public void addPageBreak(){
+        AreaBreak aB = new AreaBreak();
+        document.add(aB);
+    }
 
-    //     PdfReader reader = new PdfReader(new ByteArrayInputStream(stream.toByteArray()));
-    //     stream.close();
+    @Override
+    public void addHtmlTextParagraph(String html) throws IOException {
+        html = html.replaceFirst("<p>", "<p style=\"margin-top: 6px; margin-bottom: 6px;\">");
+        html = "<span style=\"font-family: Helvetica; margin: 0px; padding: 0px;\">" + html + "</span>";
+        System.out.println(html);
+        InputStream in = new ByteArrayInputStream(html.getBytes());
+        try {
+            List<IElement> elements = HtmlConverter.convertToElements(in);
+            for (IElement element : elements) {
+                IBlockElement blElement = (IBlockElement) element;
+                // blElement.setProperty(Property.LEADING, 0);
+                document.add(blElement);
+            } 
+        } catch (Exception e) {
+            addHtmlTextParagraph("<strong style=\"color: red;\"> UWAGA! Wyrażenie HTML jest nieprawodłowe!</strong>");
+        }
+        in.close();
+    }
 
-    //     PdfDocument markDownPdfDoc = new PdfDocument(reader);
-    //     Document markdownDoc = new Document(markDownPdfDoc);
-
-    //     for (int i = 1; i <= markDownPdfDoc.getNumberOfPages(); i++) {
-    //         PdfPage page = markDownPdfDoc.getPage(i);
-    //         page.copyTo(pdfDoc);
-    //     }
-    // }
-    
-
-    // // Creating a PdfDocument
-    //
-
-    // // Adding a new page
-    // pdfDoc.addNewPage();
-
-    // // Creating a Document
-    // document = new Document(pdfDoc);
-
+    @Override
     public void addMarkdownParagraph(String markdown) throws IOException  {
         try {
             String html = Processor.process(markdown);
+            System.out.println(html);
             addHtmlTextParagraph(html);
         } catch (Exception e) {
-            addHtmlTextParagraph("<strong style=\"color: red;\"> UWAGA! Wyrażenie LaTeX jest nieprawodłowe! </br>" + markdown + "</strong>");
+            addHtmlTextParagraph("<strong style=\"color: red;\"> UWAGA! Wyrażenie Markdown jest nieprawodłowe! </br>" + markdown + "</strong>");
         }
     }
 
+    @Override
     public void addLatexImage(String latex, int width) throws IOException  {
-
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        
         try {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-
             processLatexToImage(stream, latex, "PNG", width * 5, Color.white, Color.black, true);  
 
             ImageData data = ImageDataFactory.createPng(stream.toByteArray());  // new ImageData(stream.toByteArray(), ImageType.BMP)
@@ -144,6 +151,8 @@ public class ITextTestParser {
         } catch (Exception e) {
             addHtmlTextParagraph("<strong style=\"color: red;\"> UWAGA! Wyrażenie LaTeX jest nieprawodłowe! </br>" + latex  + "</strong>");
         }
+
+        stream.close();
     }
 
     private void processLatexToImage(ByteArrayOutputStream stream, String latex, String format, float size, Color bg, Color fg, boolean transparency) {
@@ -170,11 +179,57 @@ public class ITextTestParser {
         g2.dispose();
     }
 
+    @Override
     public ByteArrayOutputStream getStream() {
         return stream;
     }
 
+    @Override
     public void Close() {
         document.close();
     }
 }
+
+// public void addMarkdownParagraph(String markdown) throws IOException  {
+//     ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+//     try {
+//         Markdown2PdfConverter
+//         .newConverter()
+//         .readFrom(() -> markdown)
+//         .writeTo(out -> {
+//             stream.write(out, 0, out.length);
+//         })
+//         .doIt();
+//     } catch (ConversionException e) {
+//         return;
+//     } catch (Markdown2PdfLogicException e) {
+//         return;
+//     }
+//     // } catch (NullPointerException e) {
+//     //     return;
+//     // } catch (IndexOutOfBoundsException  e) {
+//     //     return;
+//     // }
+
+//     PdfReader reader = new PdfReader(new ByteArrayInputStream(stream.toByteArray()));
+//     stream.close();
+
+//     PdfDocument markDownPdfDoc = new PdfDocument(reader);
+//     Document markdownDoc = new Document(markDownPdfDoc);
+
+//     for (int i = 1; i <= markDownPdfDoc.getNumberOfPages(); i++) {
+//         PdfPage page = markDownPdfDoc.getPage(i);
+//         page.copyTo(pdfDoc);
+//     }
+// }
+
+
+// // Creating a PdfDocument
+//
+
+// // Adding a new page
+// pdfDoc.addNewPage();
+
+// // Creating a Document
+// document = new Document(pdfDoc);
