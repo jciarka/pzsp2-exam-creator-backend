@@ -2,17 +2,7 @@ package com.PZSP2.PFIMJ.db.entities;
 
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -33,16 +23,29 @@ public class User {
   @Column(unique = true, nullable = false)
   private String email;
 
+  @Column(length = 100)
+  private String position;
+  @Column(length = 100)
+  private String academicTitle;
+  @Column(length = 100)
+  private String institute;
+  @Column(length = 100)
+  private String faculty;
+
   @ManyToMany(fetch = FetchType.EAGER, cascade = {
       CascadeType.PERSIST,
       CascadeType.MERGE
   })
-  @JoinTable(name = "appuserroles", joinColumns = { @JoinColumn(name = "userid") }, inverseJoinColumns = {
-      @JoinColumn(name = "roleid") })
-      
+  @JoinTable(name = "appuserroles",
+          joinColumns = { @JoinColumn(name = "userid") },
+          inverseJoinColumns = {@JoinColumn(name = "roleid") })
   private Set<Role> roles;
 
+  @Column(nullable = false)
   private String password;
+
+  @OneToMany(mappedBy = "user")
+  private Set<SubjectUser> subjectUsers;
 
   public void addRole(Role role) {
     this.roles.add(role);

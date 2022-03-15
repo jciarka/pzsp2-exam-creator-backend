@@ -36,12 +36,4 @@ public class Role {
     }, mappedBy = "roles")
     @JsonIgnore
     private Set<User> users;
-
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setTutorials(Set<User> users) {
-        this.users = users;
-    }
 }
