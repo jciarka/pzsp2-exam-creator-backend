@@ -5,13 +5,16 @@ import java.util.Set;
 import javax.persistence.*;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "appusers")
+@NoArgsConstructor
 public class User {
+
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_generator")
   private Long id = 0L;
