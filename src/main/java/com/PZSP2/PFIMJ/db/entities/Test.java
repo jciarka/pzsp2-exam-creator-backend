@@ -1,12 +1,11 @@
 package com.PZSP2.PFIMJ.db.entities;
 
+import com.PZSP2.PFIMJ.core.tests.TestContentConverter;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.lang.model.element.Name;
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Setter
@@ -26,4 +25,8 @@ public class Test {
     @ManyToOne
     @JoinColumn(name="subjectid", nullable=false)
     private Subject subject;
+
+    @Lob
+    @Convert(converter = TestContentConverter.class)
+    private List<Exercise> exercises;
 }
