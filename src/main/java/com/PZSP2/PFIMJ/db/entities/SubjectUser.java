@@ -1,5 +1,6 @@
 package com.PZSP2.PFIMJ.db.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.bouncycastle.crypto.agreement.jpake.JPAKERound1Payload;
@@ -16,9 +17,15 @@ public class SubjectUser {
 //    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subjectusers_generator")
 //    private Long id;
 
+    public SubjectUser(User user, Subject subject){
+        setUser(user);
+        setSubject(subject);
+    }
+
     @EmbeddedId
     private SubjectUserPK id;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "userid", nullable = false, insertable = false, updatable = false)
     private User user;

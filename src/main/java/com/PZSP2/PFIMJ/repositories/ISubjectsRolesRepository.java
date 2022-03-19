@@ -17,6 +17,6 @@ import java.util.Set;
 public interface ISubjectsRolesRepository extends JpaRepository<SubjectRole, Long> {
     public Optional<SubjectRole> findByName(String Name);
 
-    @Query(value = "SELECT r.name FROM SubjectRole r JOIN SubjectUser su WHERE su.id.subjectId = :userId and su.id.subjectId = :subjectId")
+    @Query(value = "SELECT r.name FROM SubjectRole r JOIN r.subjectUsers su WHERE su.id.userId = :userId and su.id.subjectId = :subjectId")
     public List<String> findByUserIdAndSubjectId(@Param("userId") Long userId, @Param("subjectId") Long subjectId);
 }

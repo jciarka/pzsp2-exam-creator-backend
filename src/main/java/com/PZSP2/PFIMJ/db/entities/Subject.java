@@ -1,6 +1,7 @@
 package com.PZSP2.PFIMJ.db.entities;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -11,7 +12,14 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "subjects")
+@NoArgsConstructor
 public class Subject {
+    public  Subject(String name, String description)
+    {
+        setName(name);
+        setDescription(description);
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subjects_generator")
     private Long id = 0L;

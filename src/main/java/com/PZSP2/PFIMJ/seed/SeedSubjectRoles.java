@@ -18,8 +18,8 @@ public class SeedSubjectRoles {
     @PostConstruct
     public void init() {
         List<SubjectRole> subjectRoles = new ArrayList<>();
-        subjectRoles.add(new SubjectRole("READ"));
         subjectRoles.add(new SubjectRole("WRITE"));
+        subjectRoles.add(new SubjectRole("DELETE"));
         subjectRoles.add(new SubjectRole("ADMIN"));
 
         for (SubjectRole role :  subjectRoles) {
