@@ -1,19 +1,10 @@
 package com.PZSP2.PFIMJ.core.tests;
 
-import com.PZSP2.PFIMJ.db.entities.Exercise;
-import com.PZSP2.PFIMJ.db.entities.ExerciseVersion;
-import com.PZSP2.PFIMJ.db.entities.Subject;
-import com.PZSP2.PFIMJ.db.entities.Test;
 import com.PZSP2.PFIMJ.repositories.ISubjectsRepository;
 import com.PZSP2.PFIMJ.repositories.ITestsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Component
 public class TestConverterTest {

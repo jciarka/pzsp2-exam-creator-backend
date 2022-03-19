@@ -1,0 +1,22 @@
+package com.PZSP2.PFIMJ.repositories;
+
+import com.PZSP2.PFIMJ.db.entities.Role;
+import com.PZSP2.PFIMJ.db.entities.Subject;
+import com.PZSP2.PFIMJ.db.entities.SubjectRole;
+import com.PZSP2.PFIMJ.db.entities.SubjectUser;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+@Repository
+public interface ISubjectsRolesRepository extends JpaRepository<SubjectRole, Long> {
+    public Optional<SubjectRole> findByName(String Name);
+
+    @Query(value = "SELECT r.name FROM SubjectRole r JOIN SubjectUser su WHERE su.id.subjectId = :userId and su.id.subjectId = :subjectId")
+    public List<String> findByUserIdAndSubjectId(@Param("userId") Long userId, @Param("subjectId") Long subjectId);
+}

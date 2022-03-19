@@ -2,6 +2,7 @@ package com.PZSP2.PFIMJ.db.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -11,7 +12,13 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "subjectroles")
+@NoArgsConstructor
 public class SubjectRole {
+
+    public SubjectRole(String name)
+    {
+        setName(name);
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subjectroles_generator")
