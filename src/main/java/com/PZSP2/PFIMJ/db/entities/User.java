@@ -1,5 +1,6 @@
 package com.PZSP2.PFIMJ.db.entities;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -48,7 +49,7 @@ public class User {
   private String password;
 
   @OneToMany(mappedBy = "user")
-  private Set<SubjectUser> subjectUsers;
+  private Set<SubjectUser> subjectUsers = new HashSet<>();
 
   public void addRole(Role role) {
     this.roles.add(role);

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -32,5 +33,5 @@ public class SubjectRole {
             CascadeType.MERGE
     }, mappedBy = "roles")
     @JsonIgnore
-    private Set<SubjectUser> subjectUsers;
+    private Set<SubjectUser> subjectUsers = new HashSet<>();
 }

@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -31,10 +32,10 @@ public class Subject {
     private String description;
 
     @OneToMany(mappedBy = "subject")
-    private Set<SubjectUser> subjectUsers;
+    private Set<SubjectUser> subjectUsers = new HashSet<>();
 
     @OneToMany(mappedBy = "subject")
-    private Set<Test> tests;
+    private Set<Test> tests  = new HashSet<>();
 
     public void AddTest(Test test) {
         test.setSubject(this);

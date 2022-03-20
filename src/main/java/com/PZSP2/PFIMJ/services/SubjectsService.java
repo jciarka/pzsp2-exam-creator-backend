@@ -22,6 +22,10 @@ public class SubjectsService {
         return srepo.findById(id).orElse(null);
     }
 
+    public Subject get(String name) {
+        return srepo.findSubjectByName(name).orElse(null);
+    }
+
     public Subject update(long id, Subject subject) {
         Subject toUpdate = srepo.findById(id).orElse(null);
         if (toUpdate != null) {
@@ -40,14 +44,15 @@ public class SubjectsService {
     }
 
     public Subject add(Subject subject, long ownerId) {
+        // add subject
         subject = srepo.save(subject);
-        srepo.flush();
-        // TODO: Make sure that subjectid is set after add
         List<String> roles = new ArrayList<>();
+
+        // add user with roles
         roles.add("ADMIN");
         roles.add("WRITE");
         roles.add("DELETE");
-        suservice.addUserToSubject(subject.getId(), ownerId, roles);
+        suservice.addUserToSubject(ownerId, subject.getId(), roles);
         return subject;
     }
 }

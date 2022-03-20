@@ -12,6 +12,9 @@ import java.util.Optional;
 
 @Repository
 public interface ISubjectsRepository extends JpaRepository<Subject, Long> {
+    @Query("SELECT s FROM Subject s LEFT JOIN FETCH s.subjectUsers su WHERE s.id = :id")
+    public Optional<Subject> findById(@Param("id") Long id);
+
     public Optional<Subject> findSubjectByName(String name);
 
     @Query("SELECT s FROM Subject s JOIN s.subjectUsers su on su.id.userId = :userId")

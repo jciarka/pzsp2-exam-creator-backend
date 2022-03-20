@@ -2,16 +2,19 @@ package com.PZSP2.PFIMJ.db.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.bouncycastle.crypto.agreement.jpake.JPAKERound1Payload;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "subjectusers")
+@NoArgsConstructor
 public class SubjectUser {
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subjectusers_generator")
@@ -20,10 +23,13 @@ public class SubjectUser {
     public SubjectUser(User user, Subject subject){
         setUser(user);
         setSubject(subject);
+//        id = new SubjectUserPK();
+//        id.setSubjectId(subject.getId());
+//        id.setUserId(user.getId());
     }
 
     @EmbeddedId
-    private SubjectUserPK id;
+    private SubjectUserPK id = new SubjectUserPK();
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -39,42 +45,47 @@ public class SubjectUser {
             CascadeType.PERSIST,
             CascadeType.MERGE
     })
-    @JoinTable(name = "appsubjectuserroles",
-            joinColumns = { @JoinColumn(name = "userid"), @JoinColumn(name = "subjectid") },
+    @JoinTable(name = "subjectuserroles",
+            joinColumns = {
+                @JoinColumn(name = "userid", referencedColumnName = "userid"),
+                @JoinColumn(name = "subjectid", referencedColumnName = "subjectid")
+            },
             inverseJoinColumns = { @JoinColumn(name = "roleid") })
-    private Set<SubjectRole> roles;
+    private Set<SubjectRole> roles  = new HashSet<>();
 
     public void setUser(User user) {
         // remove from old
-        SubjectUser toRemove = this.user.getSubjectUsers().stream().filter(
-                t -> t.getId().getSubjectId().equals(getId().getSubjectId()))
-                .findFirst().orElse(null);
-        if (toRemove != null)
-            getUser().getSubjectUsers().remove(user);
+        if (this.user != null) {
+            SubjectUser toRemove = this.user.getSubjectUsers().stream().filter(
+                    t -> t.getId().getSubjectId().equals(getId().getSubjectId()))
+                    .findFirst().orElse(null);
+            if (toRemove != null)
+                getUser().getSubjectUsers().remove(user);
+        }
 
-        // add to this
         this.getId().setUserId(user.getId());
-        this.user.getSubjectUsers().add(this);
-
-        // add to new
+        user.getSubjectUsers().add(this);
         this.user = user;
     }
 
     public void setSubject(Subject subject) {
-        // remove from old
-        SubjectUser toRemove = this.subject.getSubjectUsers().stream().filter(
-                t -> t.getId().getUserId().equals(getId().getUserId()))
-                .findFirst().orElse(null);
 
-        if (toRemove != null)
-            subject.getSubjectUsers().remove(user);
+        if (this.subject != null) {
+            // remove from old
+            SubjectUser toRemove = this.subject.getSubjectUsers().stream().filter(
+                            t -> t.getId().getUserId().equals(getId().getUserId()))
+                    .findFirst().orElse(null);
 
-        // add to this
-        this.id.setSubjectId(user.getId());
-        this.user.getSubjectUsers().add(this);
+            if (toRemove != null)
+                subject.getSubjectUsers().remove(user);
+        }
 
         // add to new
         this.subject = subject;
+
+        // add to this
+        this.id.setSubjectId(subject.getId());
+        subject.getSubjectUsers().add(this);
     }
 
 

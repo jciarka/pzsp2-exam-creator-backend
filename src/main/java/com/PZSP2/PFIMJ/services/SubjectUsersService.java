@@ -43,6 +43,7 @@ public class SubjectUsersService {
             return null;
 
         SubjectUser subjectUser = new SubjectUser(user, subject);
+
         return surepo.save(subjectUser);
     }
 
@@ -73,7 +74,7 @@ public class SubjectUsersService {
         if (sUser == null || roleName == null)
             return null;
 
-        sUser.addRole(role);
+        sUser.getRoles().add(role);
         return surepo.save(sUser);
     }
 
