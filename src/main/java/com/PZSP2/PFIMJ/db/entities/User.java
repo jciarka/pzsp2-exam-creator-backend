@@ -20,12 +20,14 @@ public class User {
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_generator")
   @Column(name = "user_id")
   private Long id = 0L;
+
+  @Column(length = 100)
   private String firstname;
 
-  @Column(nullable = false)
+  @Column(nullable = false, length = 100)
   private String lastname;
 
-  @Column(unique = true, nullable = false)
+  @Column(unique = true, nullable = false, length = 100)
   private String email;
 
   @Column(length = 100)
@@ -46,7 +48,7 @@ public class User {
           inverseJoinColumns = {@JoinColumn(name = "role_id") })
   private Set<Role> roles;
 
-  @Column(nullable = false)
+  @Column(nullable = false, length = 100)
   private String password;
 
   @OneToMany(mappedBy = "user")

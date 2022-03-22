@@ -26,7 +26,7 @@ public class Subject {
     @Column(name = "subject_id")
     private Long id = 0L;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String name;
 
     @Column(length = 4000)

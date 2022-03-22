@@ -26,7 +26,7 @@ public class SubjectRole {
     @Column(name = "role_id")
     private Long id = 0L;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 20)
     private String name;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {
