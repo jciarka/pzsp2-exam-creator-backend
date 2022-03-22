@@ -23,6 +23,7 @@ public class Subject {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subjects_generator")
+    @Column(name = "subject_id")
     private Long id = 0L;
 
     @Column(nullable = false)

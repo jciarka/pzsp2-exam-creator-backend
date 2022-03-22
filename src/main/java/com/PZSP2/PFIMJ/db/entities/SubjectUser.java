@@ -33,11 +33,11 @@ public class SubjectUser {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "userid", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "subjectid", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "subject_id", nullable = false, insertable = false, updatable = false)
     private Subject subject;
 
     @ManyToMany(
@@ -47,8 +47,8 @@ public class SubjectUser {
     })
     @JoinTable(name = "subjectuserroles",
             joinColumns = {
-                @JoinColumn(name = "userid", referencedColumnName = "userid"),
-                @JoinColumn(name = "subjectid", referencedColumnName = "subjectid")
+                @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
+                @JoinColumn(name = "subject_id", referencedColumnName = "subject_id")
             },
             inverseJoinColumns = { @JoinColumn(name = "roleid") })
     private Set<SubjectRole> roles  = new HashSet<>();

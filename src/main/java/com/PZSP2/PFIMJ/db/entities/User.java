@@ -18,6 +18,7 @@ public class User {
 
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_generator")
+  @Column(name = "user_id")
   private Long id = 0L;
   private String firstname;
 
@@ -41,8 +42,8 @@ public class User {
       CascadeType.MERGE
   })
   @JoinTable(name = "appuserroles",
-          joinColumns = { @JoinColumn(name = "userid") },
-          inverseJoinColumns = {@JoinColumn(name = "roleid") })
+          joinColumns = { @JoinColumn(name = "user_id") },
+          inverseJoinColumns = {@JoinColumn(name = "role_id") })
   private Set<Role> roles;
 
   @Column(nullable = false)

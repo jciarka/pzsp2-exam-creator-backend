@@ -14,6 +14,7 @@ import java.util.List;
 public class Test {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subjects_generator")
+    @Column(name = "test_id")
     private Long id = 0L;
 
     @Column(nullable = false)
@@ -23,7 +24,7 @@ public class Test {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name="subjectid", nullable=false)
+    @JoinColumn(name="subject_id", nullable=false)
     private Subject subject;
 
     @Lob

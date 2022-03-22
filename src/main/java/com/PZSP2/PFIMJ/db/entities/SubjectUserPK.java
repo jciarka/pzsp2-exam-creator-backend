@@ -9,8 +9,8 @@ import java.io.Serializable;
 @Data
 @Embeddable
 public class SubjectUserPK implements Serializable {
-    @Column(name = "userid", nullable = false)
+    @Column(name = "user_id", nullable = false)
     private Long userId;
-    @Column(name = "subjectid", nullable = false)
+    @Column(name = "subject_id", nullable = false)
     private Long subjectId;
 }

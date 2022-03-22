@@ -25,6 +25,7 @@ import lombok.Setter;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_generator")
+    @Column(name = "role_id")
     private Long id;
 
     @Column(unique = true, nullable = false)
