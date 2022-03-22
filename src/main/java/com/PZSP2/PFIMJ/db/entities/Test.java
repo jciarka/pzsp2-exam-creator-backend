@@ -10,7 +10,13 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "tests")
+@Table(
+        name = "tests",
+        indexes = {
+            @Index(columnList = "test_id", name = "test_id_ix"),
+            @Index(columnList = "subject_id", name = "test_to_subject_ix")
+        }
+)
 public class Test {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subjects_generator")

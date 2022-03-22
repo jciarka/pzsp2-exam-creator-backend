@@ -13,7 +13,13 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "users_subject_assign")
+@Table(
+        name = "users_subject_assign",
+        indexes = {
+                @Index(columnList = "subject_id", name = "user_subject_assign_to_subject_fk"),
+                @Index(columnList = "user_id", name = "user_subject_assign_to_user_ix"),
+        }
+)
 @NoArgsConstructor
 public class SubjectUser {
 //    @Id
@@ -45,12 +51,29 @@ public class SubjectUser {
             CascadeType.PERSIST,
             CascadeType.MERGE
     })
-    @JoinTable(name = "users_subject_roles",
-            joinColumns = {
-                @JoinColumn(name = "user_id", referencedColumnName = "user_id", foreignKey = @ForeignKey(name = "subject_role_to_user_assign_fk")),
-                @JoinColumn(name = "subject_id", referencedColumnName = "subject_id", foreignKey = @ForeignKey(name = "subject_role_to_user_assign_fk"))
+    @JoinTable(
+            name = "users_subject_roles",
+            indexes = {
+                @Index(columnList = "user_id", name = "subject_role_to_user_assign_user_ix"),
+                @Index(columnList = "subject_id", name = "subject_role_to_user_assign_subject_ix"),
+                @Index(columnList = "role_id", name = "subject_role_to_role_ix")
             },
-            inverseJoinColumns = { @JoinColumn(name = "role_id", referencedColumnName = "role_id", foreignKey = @ForeignKey(name = "subject_role_to_role_fk")) })
+            joinColumns = {
+                @JoinColumn(
+                        name = "user_id",
+                        referencedColumnName = "user_id",
+                        foreignKey = @ForeignKey(name = "subject_role_to_user_assign_fk")
+                ),
+                @JoinColumn(
+                        name = "subject_id",
+                        referencedColumnName = "subject_id",
+                        foreignKey = @ForeignKey(name = "subject_role_to_user_assign_fk"))
+            },
+            inverseJoinColumns = { @JoinColumn(name = "role_id",
+                    referencedColumnName = "role_id",
+                    foreignKey = @ForeignKey(name = "subject_role_to_role_fk"))
+            }
+    )
     private Set<SubjectRole> roles  = new HashSet<>();
 
     public void setUser(User user) {

@@ -13,10 +13,14 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(
-        name = "users",
-        uniqueConstraints = {
-                @UniqueConstraint(name = "email_unique_k", columnNames = {"email"})
-        }
+      name = "users",
+      uniqueConstraints = {
+              @UniqueConstraint(name = "email_unique_k", columnNames = {"email"})
+      },
+      indexes = {
+          @Index(columnList = "user_id", name = "user_id_ix"),
+          @Index(columnList = "email", name = "user_email_ix")
+      }
 )
 @NoArgsConstructor
 public class User {
@@ -48,9 +52,18 @@ public class User {
       CascadeType.PERSIST,
       CascadeType.MERGE
   })
-  @JoinTable(name = "users_global_roles",
-          joinColumns = { @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "global_roles_to_user_fk")) },
-          inverseJoinColumns = {@JoinColumn(name = "role_id", foreignKey = @ForeignKey(name = "global_roles_to_role_fk")) })
+  @JoinTable(
+          name = "users_global_roles",
+          indexes = {
+              @Index(columnList = "user_id", name = "global_roles_to_user_ix"),
+              @Index(columnList = "role_id", name = "global_roles_to_role_ix")
+          },
+          joinColumns = {
+              @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "global_roles_to_user_fk"))
+          },
+          inverseJoinColumns = {
+              @JoinColumn(name = "role_id", foreignKey = @ForeignKey(name = "global_roles_to_role_fk"))
+          })
   private Set<Role> roles;
 
   @Column(nullable = false, length = 100)

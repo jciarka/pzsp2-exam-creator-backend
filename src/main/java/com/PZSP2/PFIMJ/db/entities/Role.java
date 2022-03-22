@@ -16,6 +16,10 @@ import lombok.Setter;
         name = "global_roles_dict",
         uniqueConstraints = {
                 @UniqueConstraint(name = "name_unique_k", columnNames = {"name"})
+        },
+        indexes = {
+            @Index(columnList = "role_id", name = "global_role_id_ix"),
+            @Index(columnList = "name", name = "global_role_name_ix")
         }
 )
 public class Role {

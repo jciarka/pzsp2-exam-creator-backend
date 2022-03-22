@@ -12,7 +12,13 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "subjects")
+@Table(
+        name = "subjects",
+        indexes = {
+                @Index(columnList = "subject_id", name = "subject_id_ix"),
+                @Index(columnList = "name", name = "subject_name_ix")
+        }
+)
 @NoArgsConstructor
 public class Subject {
     public  Subject(String name, String description)
