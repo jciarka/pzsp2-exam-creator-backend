@@ -18,7 +18,6 @@ import lombok.Setter;
               @UniqueConstraint(name = "email_unique_k", columnNames = {"email"})
       },
       indexes = {
-          @Index(columnList = "user_id", name = "user_id_ix"),
           @Index(columnList = "email", name = "user_email_ix")
       }
 )

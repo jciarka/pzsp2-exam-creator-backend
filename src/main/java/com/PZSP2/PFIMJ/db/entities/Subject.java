@@ -15,7 +15,6 @@ import java.util.Set;
 @Table(
         name = "subjects",
         indexes = {
-                @Index(columnList = "subject_id", name = "subject_id_ix"),
                 @Index(columnList = "name", name = "subject_name_ix")
         }
 )

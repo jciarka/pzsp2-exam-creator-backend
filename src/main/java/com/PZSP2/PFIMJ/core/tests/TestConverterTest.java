@@ -26,43 +26,42 @@ public class TestConverterTest {
 
     @PostConstruct
     public void init() {
-
-        Subject subject = new Subject();
-        subject.setName("PZSP");
-        subject.setDescription("12345");
-        srepo.save(subject);
-
-        ExerciseVersion version1 = new ExerciseVersion();
-        version1.setText("Oto jest pytanie");
-        Exercise exercise = new Exercise();
-
-        List<ExerciseVersion> versions = new ArrayList<>();
-        versions.add(version1);
-
-        exercise.setVersions(versions);
-        exercise.setTitle("Zadanie z geometrii");
-        exercise.setType("PLAIN_TEXT");
-
-        Test test = new Test();
-        test.setTitle("Test 1");
-        test.setDescription("Kol. 1");
-
-        List<Exercise> exerciseList = new ArrayList<>();
-        exerciseList.add(exercise);
-
-        test.setExercises(exerciseList);
-
-        // save test
-        Subject addedSubject = srepo.findSubjectByName(subject.getName()).orElse(null);
-
-        test.setSubject(addedSubject);
-        Set<Test> tests = new HashSet<>();
-        tests.add(test);
-        addedSubject.setTests(tests);
-
-        trepo.save(test);
-
-        Test addedTest = trepo.findTestByTitle(test.getTitle()).orElse(null);
-        System.out.println(addedTest.getId());
+//        Subject subject = new Subject();
+//        subject.setName("PZSP");
+//        subject.setDescription("12345");
+//        srepo.save(subject);
+//
+//        ExerciseVersion version1 = new ExerciseVersion();
+//        version1.setText("Oto jest pytanie");
+//        Exercise exercise = new Exercise();
+//
+//        List<ExerciseVersion> versions = new ArrayList<>();
+//        versions.add(version1);
+//
+//        exercise.setVersions(versions);
+//        exercise.setTitle("Zadanie z geometrii");
+//        exercise.setType("PLAIN_TEXT");
+//
+//        Test test = new Test();
+//        test.setTitle("Test 1");
+//        test.setDescription("Kol. 1");
+//
+//        List<Exercise> exerciseList = new ArrayList<>();
+//        exerciseList.add(exercise);
+//
+//        test.setExercises(exerciseList);
+//
+//        // save test
+//        Subject addedSubject = srepo.findSubjectByName(subject.getName()).orElse(null);
+//
+//        test.setSubject(addedSubject);
+//        Set<Test> tests = new HashSet<>();
+//        tests.add(test);
+//        addedSubject.setTests(tests);
+//
+//        trepo.save(test);
+//
+//        Test addedTest = trepo.findTestByTitle(test.getTitle()).orElse(null);
+//        System.out.println(addedTest.getId());
     }
 }

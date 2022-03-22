@@ -13,7 +13,6 @@ import java.util.List;
 @Table(
         name = "tests",
         indexes = {
-            @Index(columnList = "test_id", name = "test_id_ix"),
             @Index(columnList = "subject_id", name = "test_to_subject_ix")
         }
 )
@@ -29,7 +28,7 @@ public class Test {
     @Column(length = 4000)
     private String description;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name="subject_id", nullable=false, foreignKey = @ForeignKey(name = "test_to_subject_fk"))
     private Subject subject;
 

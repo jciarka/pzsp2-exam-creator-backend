@@ -18,7 +18,6 @@ import java.util.Set;
             @UniqueConstraint(name = "name_unique_k", columnNames = {"name"})
         },
         indexes = {
-            @Index(columnList = "role_id", name = "subject_role_id_ix"),
             @Index(columnList = "name", name = "subject_role_name_ix")
         }
 )
