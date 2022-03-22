@@ -1,19 +1,10 @@
 package com.PZSP2.PFIMJ.db.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -21,14 +12,19 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "global_roles_dict")
+@Table(
+        name = "global_roles_dict",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "name_unique_k", columnNames = {"name"})
+        }
+)
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_generator")
-    @Column(name = "role_id")
+    @Column(name = "role_id", columnDefinition = "NUMBER(4,0)")
     private Long id;
 
-    @Column(unique = true, nullable = false, length = 20)
+    @Column(nullable = false, length = 20)
     private String name;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {

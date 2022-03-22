@@ -12,7 +12,12 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "subject_roles_dict")
+@Table(
+        name = "subject_roles_dict",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "name_unique_k", columnNames = {"name"})
+        }
+)
 @NoArgsConstructor
 public class SubjectRole {
 
@@ -23,10 +28,10 @@ public class SubjectRole {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subjectroles_generator")
-    @Column(name = "role_id")
+    @Column(name = "role_id", columnDefinition = "NUMBER(4,0)")
     private Long id = 0L;
 
-    @Column(nullable = false, unique = true, length = 20)
+    @Column(nullable = false, length = 20)
     private String name;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {

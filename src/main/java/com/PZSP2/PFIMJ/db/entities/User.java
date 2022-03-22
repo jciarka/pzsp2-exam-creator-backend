@@ -12,13 +12,18 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "users")
+@Table(
+        name = "users",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "email_unique_k", columnNames = {"email"})
+        }
+)
 @NoArgsConstructor
 public class User {
 
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_generator")
-  @Column(name = "user_id")
+  @Column(name = "user_id", columnDefinition = "NUMBER(9,0)")
   private Long id = 0L;
 
   @Column(length = 100)
@@ -27,7 +32,7 @@ public class User {
   @Column(nullable = false, length = 100)
   private String lastname;
 
-  @Column(unique = true, nullable = false, length = 100)
+  @Column(nullable = false, length = 100)
   private String email;
 
   @Column(length = 100)
@@ -44,8 +49,8 @@ public class User {
       CascadeType.MERGE
   })
   @JoinTable(name = "users_global_roles",
-          joinColumns = { @JoinColumn(name = "user_id") },
-          inverseJoinColumns = {@JoinColumn(name = "role_id") })
+          joinColumns = { @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "global_roles_to_user_fk")) },
+          inverseJoinColumns = {@JoinColumn(name = "role_id", foreignKey = @ForeignKey(name = "global_roles_to_role_fk")) })
   private Set<Role> roles;
 
   @Column(nullable = false, length = 100)

@@ -33,11 +33,11 @@ public class SubjectUser {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "user_subject_assign_to_subject_fk"))
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "subject_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "subject_id", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "user_subject_assign_to_user_fk"))
     private Subject subject;
 
     @ManyToMany(
@@ -47,10 +47,10 @@ public class SubjectUser {
     })
     @JoinTable(name = "users_subject_roles",
             joinColumns = {
-                @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
-                @JoinColumn(name = "subject_id", referencedColumnName = "subject_id")
+                @JoinColumn(name = "user_id", referencedColumnName = "user_id", foreignKey = @ForeignKey(name = "subject_role_to_user_assign_fk")),
+                @JoinColumn(name = "subject_id", referencedColumnName = "subject_id", foreignKey = @ForeignKey(name = "subject_role_to_user_assign_fk"))
             },
-            inverseJoinColumns = { @JoinColumn(name = "roleid") })
+            inverseJoinColumns = { @JoinColumn(name = "role_id", referencedColumnName = "role_id", foreignKey = @ForeignKey(name = "subject_role_to_role_fk")) })
     private Set<SubjectRole> roles  = new HashSet<>();
 
     public void setUser(User user) {

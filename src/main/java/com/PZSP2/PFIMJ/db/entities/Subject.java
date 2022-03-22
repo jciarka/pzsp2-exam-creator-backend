@@ -23,7 +23,7 @@ public class Subject {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subjects_generator")
-    @Column(name = "subject_id")
+    @Column(name = "subject_id", columnDefinition = "NUMBER(9,0)")
     private Long id = 0L;
 
     @Column(nullable = false, length = 100)
