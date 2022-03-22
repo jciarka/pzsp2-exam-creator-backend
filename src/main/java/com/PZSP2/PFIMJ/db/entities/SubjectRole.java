@@ -12,7 +12,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "subjectroles")
+@Table(name = "subject_roles_dict")
 @NoArgsConstructor
 public class SubjectRole {
 
@@ -23,6 +23,7 @@ public class SubjectRole {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subjectroles_generator")
+    @Column(name = "role_id")
     private Long id = 0L;
 
     @Column(nullable = false, unique = true)

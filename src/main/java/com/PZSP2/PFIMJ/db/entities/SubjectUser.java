@@ -13,7 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "subjectusers")
+@Table(name = "users_subject_assign")
 @NoArgsConstructor
 public class SubjectUser {
 //    @Id
@@ -45,7 +45,7 @@ public class SubjectUser {
             CascadeType.PERSIST,
             CascadeType.MERGE
     })
-    @JoinTable(name = "subjectuserroles",
+    @JoinTable(name = "users_subject_roles",
             joinColumns = {
                 @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
                 @JoinColumn(name = "subject_id", referencedColumnName = "subject_id")

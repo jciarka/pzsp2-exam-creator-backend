@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "appusers")
+@Table(name = "users")
 @NoArgsConstructor
 public class User {
 
@@ -41,7 +41,7 @@ public class User {
       CascadeType.PERSIST,
       CascadeType.MERGE
   })
-  @JoinTable(name = "appuserroles",
+  @JoinTable(name = "users_global_roles",
           joinColumns = { @JoinColumn(name = "user_id") },
           inverseJoinColumns = {@JoinColumn(name = "role_id") })
   private Set<Role> roles;
