@@ -29,7 +29,7 @@ public class Test {
     @Column(length = 4000)
     private String description;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name="subject_id", nullable=false, foreignKey = @ForeignKey(name = "test_to_subject_fk"))
     private Subject subject;
 

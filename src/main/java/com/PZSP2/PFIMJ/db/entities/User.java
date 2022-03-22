@@ -32,13 +32,10 @@ public class User {
 
   @Column(length = 100)
   private String firstname;
-
   @Column(nullable = false, length = 100)
   private String lastname;
-
   @Column(nullable = false, length = 100)
   private String email;
-
   @Column(length = 100)
   private String position;
   @Column(length = 100)
@@ -48,10 +45,13 @@ public class User {
   @Column(length = 100)
   private String faculty;
 
-  @ManyToMany(fetch = FetchType.EAGER, cascade = {
-      CascadeType.PERSIST,
-      CascadeType.MERGE
-  })
+  @ManyToMany(
+          fetch = FetchType.EAGER,
+          cascade = {
+            CascadeType.REMOVE,
+            CascadeType.REMOVE
+          }
+  )
   @JoinTable(
           name = "users_global_roles",
           indexes = {
@@ -63,7 +63,8 @@ public class User {
           },
           inverseJoinColumns = {
               @JoinColumn(name = "role_id", foreignKey = @ForeignKey(name = "global_roles_to_role_fk"))
-          })
+          }
+          )
   private Set<Role> roles;
 
   @Column(nullable = false, length = 100)

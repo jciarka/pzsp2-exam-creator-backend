@@ -16,8 +16,8 @@ import java.util.Set;
 @Table(
         name = "users_subject_assign",
         indexes = {
-                @Index(columnList = "subject_id", name = "user_subject_assign_to_subject_fk"),
-                @Index(columnList = "user_id", name = "user_subject_assign_to_user_ix"),
+            @Index(columnList = "subject_id", name = "user_subject_assign_to_subject_fk"),
+            @Index(columnList = "user_id", name = "user_subject_assign_to_user_ix"),
         }
 )
 @NoArgsConstructor
@@ -38,19 +38,41 @@ public class SubjectUser {
     private SubjectUserPK id = new SubjectUserPK();
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "user_subject_assign_to_subject_fk"))
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            optional = false,
+            cascade = CascadeType.REMOVE
+    )
+    @JoinColumn(
+            name = "user_id",
+            nullable = false,
+            insertable = false,
+            updatable = false,
+            foreignKey = @ForeignKey(name = "user_subject_assign_to_subject_fk")
+    )
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "subject_id", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "user_subject_assign_to_user_fk"))
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            optional = false,
+            cascade = CascadeType.REMOVE
+    )
+    @JoinColumn(
+            name = "subject_id",
+            nullable = false,
+            insertable = false,
+            updatable = false,
+            foreignKey = @ForeignKey(name = "user_subject_assign_to_user_fk")
+    )
     private Subject subject;
 
     @ManyToMany(
-            fetch = FetchType.EAGER, cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
+            fetch = FetchType.EAGER,
+            cascade = {
+                CascadeType.REMOVE,
+                CascadeType.REMOVE
+            }
+     )
     @JoinTable(
             name = "users_subject_roles",
             indexes = {
