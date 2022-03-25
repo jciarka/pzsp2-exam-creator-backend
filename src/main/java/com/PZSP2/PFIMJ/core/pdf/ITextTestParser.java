@@ -24,6 +24,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import java.awt.image.BufferedImage;
@@ -153,6 +154,58 @@ public class ITextTestParser implements ITestParser {
         }
 
         stream.close();
+    }
+
+    @Override
+    public void addChoosePlainTextParagraph(String text, List<String> answers) throws IOException {
+        addChoosePlainTextParagraph(text, answers, new ArrayList<Integer>());
+    }
+
+    @Override
+    public void addChoosePlainTextParagraph(String text, List<String> answers, List<Integer> markedAnswersIndexes) throws IOException {
+        StringBuilder builder = new StringBuilder("<p>\n");
+        andAnswersAsHtmlList(text, answers, markedAnswersIndexes, builder);
+        builder.append("</p>");
+        addHtmlTextParagraph(builder.toString());
+    }
+
+    private void andAnswersAsHtmlList(String text, List<String> answers, List<Integer> markedAnswersIndexes, StringBuilder builder) {
+        builder.append(text + "\n");
+        builder.append("<ol type=\"a\">\n");
+        for (int i = 0; i < answers.size(); i++) {
+            String answer = answers.get(i);
+            if (markedAnswersIndexes.contains(i)){
+                answer = "<strong>"  + answer + "</strong>";
+            }
+            answer = "<li>"  + answer + "</li>";
+            builder.append(answer);
+        }
+        builder.append("</ol>");
+    }
+
+    @Override
+    public void addChooseMarkdownParagraph(String text, List<String> answers) throws IOException {
+        addChoosePlainTextParagraph(text, answers, new ArrayList<Integer>());
+    }
+
+    @Override
+    public void addChooseMarkdownParagraph(String text, List<String> answers, List<Integer> markedAnswersIndexes) throws IOException {
+        StringBuilder builder = new StringBuilder();
+        andAnswersMarkdownList(text, answers, markedAnswersIndexes, builder);
+        addMarkdownParagraph(builder.toString());
+    }
+
+    private void andAnswersMarkdownList(String text, List<String> answers, List<Integer> markedAnswersIndexes, StringBuilder builder) {
+        builder.append(text);
+        for (int i = 0; i < answers.size(); i++) {
+            char letter = (char) ('a' + i%26 );
+            String answer = answers.get(i);
+            if (markedAnswersIndexes.contains(i)) {
+                builder.append("\n - **" + letter + ". " + answer + "**");
+            } else  {
+                builder.append("\n - " + letter + ". "+ answer);
+            }
+        }
     }
 
     private void processLatexToImage(ByteArrayOutputStream stream, String latex, String format, float size, Color bg, Color fg, boolean transparency) {

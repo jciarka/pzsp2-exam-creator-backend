@@ -13,6 +13,9 @@ import com.qkyrie.markdown2pdf.internal.exceptions.ConversionException;
 import com.qkyrie.markdown2pdf.internal.exceptions.Markdown2PdfLogicException;
 
 import java.io.*;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/pdfGenerator")
@@ -61,6 +64,15 @@ public class PdfGeneratorController extends ControllerBase {
                 "***Tą drę chce jeśli tędy twór***\n  " +
                 "żółtoróżowością (żółtoróżowość) i różowożółtością (różowożółtość).  \n csdascdw \n");
 
+
+        parser.addTaskHeader(4, 5);
+        String Text = "Wybierz prawdziwe odpowiedzi";
+        List<String> answers = Arrays.asList(new String[]{"To jest odpowiedź nr 1", "To jest *odpowiedź* nr 2", "To jest odpowiedź nr 3", "To jest odpowiedź nr 4", "To jest odpowiedź nr 5"});
+        List<Integer> trueAnsers = Arrays.asList(new Integer[]{1, 3});
+        parser.addChoosePlainTextParagraph(Text, answers, trueAnsers);
+
+        parser.addTaskHeader(5, 5);
+        parser.addChooseMarkdownParagraph(Text, answers, trueAnsers);
 
         parser.addTaskHeader(5, 5);
         parser.addHtmlTextParagraph("<p>Paragraph żółtoróżowością (żółtoróżowość) i różowożółtością (różowożółtość).  </p>");
