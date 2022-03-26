@@ -2,6 +2,7 @@ package com.PZSP2.PFIMJ.services;
 
 import com.PZSP2.PFIMJ.db.entities.Subject;
 import com.PZSP2.PFIMJ.db.entities.User;
+import com.PZSP2.PFIMJ.projections.SubjectProjection;
 import com.PZSP2.PFIMJ.repositories.ISubjectsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,5 +55,10 @@ public class SubjectsService {
         roles.add("DELETE");
         suservice.addUserToSubject(ownerId, subject.getId(), roles);
         return subject;
+    }
+
+    public List<SubjectProjection> getUserSubjects(long userId){
+        List<SubjectProjection> userSubjects = srepo.findByUserId(userId);
+        return userSubjects;
     }
 }
