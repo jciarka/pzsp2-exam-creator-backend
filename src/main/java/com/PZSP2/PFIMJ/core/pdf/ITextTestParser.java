@@ -17,6 +17,8 @@ import com.itextpdf.layout.property.TextAlignment;
 import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.awt.Insets;
@@ -34,6 +36,7 @@ import java.awt.Color;
 import javax.imageio.ImageIO;
 
 @Component
+@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ITextTestParser implements ITestParser {
     private final ByteArrayOutputStream stream;
     private final PdfWriter writer;

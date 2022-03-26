@@ -1,7 +1,15 @@
 package com.PZSP2.PFIMJ.controllers;
 
 import com.PZSP2.PFIMJ.core.pdf.ITestParser;
+import com.PZSP2.PFIMJ.db.entities.Answer;
+import com.PZSP2.PFIMJ.db.entities.Exercise;
+import com.PZSP2.PFIMJ.db.entities.ExerciseVersion;
+import com.PZSP2.PFIMJ.db.entities.Test;
+import com.PZSP2.PFIMJ.seed.SeedTests;
+import com.PZSP2.PFIMJ.services.TestGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,17 +20,21 @@ import org.springframework.web.bind.annotation.RestController;
 import com.qkyrie.markdown2pdf.internal.exceptions.ConversionException;
 import com.qkyrie.markdown2pdf.internal.exceptions.Markdown2PdfLogicException;
 
+import javax.xml.crypto.Data;
 import java.io.*;
 import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @RestController
+@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @RequestMapping(path = "api/pdfGenerator")
 public class PdfGeneratorController extends ControllerBase {
 
     @Autowired
     ITestParser parser;
+
+    @Autowired
+    TestGeneratorService genService;
 
     @GetMapping(
             value = "test",
@@ -34,6 +46,65 @@ public class PdfGeneratorController extends ControllerBase {
         byte[] data = in.readAllBytes();
         in.close();
         return data;
+    }
+    @GetMapping(
+            value = "test3",
+            produces = MediaType.APPLICATION_PDF_VALUE
+    )
+    public @ResponseBody byte[] getTestDocument() throws IOException, ConversionException, Markdown2PdfLogicException {
+        genService.AddTest(
+                "Projekt zespołowy 2",
+                "kolokwium 1",
+                new Date(System.currentTimeMillis()),
+                SeedTests.GetExampleTest(5, 5, 5, 5, 5, 5),
+                1,
+                false,
+                false,
+                false,
+                false
+        );
+        ByteArrayOutputStream stream = genService.GetStream();
+        genService.Close();
+        return stream.toByteArray();
+    }
+
+    private Test getExampleTest() {
+        ExerciseVersion version1 = new ExerciseVersion(
+            "Oto jest pytanie - wersia nr 1",
+            Arrays.asList(new Answer[]{
+                new Answer("Odpowiedź 1", true),
+                new Answer("Odpowiedź 2", false),
+                new Answer("Odpowiedź 3", false),
+                new Answer("odpowiedź 4", true)
+        }));
+
+        ExerciseVersion version2 = new ExerciseVersion(
+                "Oto jest pytanie - wersia nr 2",
+                Arrays.asList(new Answer[]{
+                        new Answer("Odpowiedź 1", true),
+                        new Answer("Odpowiedź 2", false),
+                        new Answer("Odpowiedź 3", false),
+                        new Answer("odpowiedź 4", true)
+                }));
+
+        Exercise exercise = new Exercise();
+        exercise.setVersions(Arrays.asList(
+                new ExerciseVersion[] { version1, version2 })
+        );
+
+        exercise.setTitle("Zadanie z geometrii");
+        exercise.setType("CHOOSEONEPLAINTEXT");
+
+        Test test = new Test();
+        test.setTitle("Test 1");
+        test.setDescription("Kol. 1");
+
+        List<Exercise> exerciseList = new ArrayList<>();
+        exerciseList.add(exercise);
+
+        test.setExercises(exerciseList);
+
+        return test;
     }
 
     @GetMapping(
