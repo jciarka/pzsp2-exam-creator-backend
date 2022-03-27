@@ -147,23 +147,13 @@
 			<artifactId>txtmark</artifactId>
 			<version>0.13</version>
 		</dependency>
+		<!--	Markdown END	-->
 
-		<dependency>
-			<groupId>org.markdownj</groupId>
-			<artifactId>markdownj-core</artifactId>
-			<version>0.4</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.vladsch.flexmark</groupId>
-			<artifactId>flexmark-all</artifactId>
-			<version>0.64.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.commonmark</groupId>
-			<artifactId>commonmark</artifactId>
-			<version>0.18.1</version>
+		<!-- jlatexmath BEGIN -->
+        <dependency>
+			<groupId>org.scilab.forge</groupId>
+			<artifactId>jlatexmath</artifactId>
+			<version>1.0.7</version>
 		</dependency>
 
 		<dependency>
@@ -176,15 +166,6 @@
 			<groupId>org.jfree</groupId>
 			<artifactId>jfreesvg</artifactId>
 			<version>3.4</version>
-		</dependency>
-
-		<!--	Markdown END	-->
-
-		<!-- jlatexmath BEGIN -->
-        <dependency>
-			<groupId>org.scilab.forge</groupId>
-			<artifactId>jlatexmath</artifactId>
-			<version>1.0.7</version>
 		</dependency>
 		<!-- jlatexmath END -->
 
