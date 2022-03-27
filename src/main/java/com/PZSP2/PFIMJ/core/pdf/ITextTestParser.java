@@ -14,6 +14,11 @@ import com.itextpdf.layout.element.*;
 import com.itextpdf.layout.property.HorizontalAlignment;
 
 import com.itextpdf.layout.property.TextAlignment;
+import com.vladsch.flexmark.util.ast.Node;
+import com.vladsch.flexmark.html.HtmlRenderer;
+import com.vladsch.flexmark.parser.Parser;
+import com.vladsch.flexmark.util.data.MutableDataSet;
+import org.markdownj.MarkdownProcessor;
 import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
@@ -131,7 +136,18 @@ public class ITextTestParser implements ITestParser {
     @Override
     public void addMarkdownParagraph(String markdown) throws IOException  {
         try {
-            String html = Processor.process(markdown);
+            //String html = Processor.process(markdown);
+//            MarkdownProcessor processor = new MarkdownProcessor();
+//            String html = processor.markdown(markdown);
+
+            TeXProcessor teXProcessor = new TeXProcessor();
+            markdown = teXProcessor.apply(markdown);
+
+            Parser parser = Parser.builder().build();
+            Node document = parser.parse(markdown);
+            HtmlRenderer renderer = HtmlRenderer.builder().build();
+            String html = renderer.render(document);  // "<p>This is <em>Sparta</em></p>\n"
+
             System.out.println(html);
             addHtmlTextParagraph(html);
         } catch (Exception e) {

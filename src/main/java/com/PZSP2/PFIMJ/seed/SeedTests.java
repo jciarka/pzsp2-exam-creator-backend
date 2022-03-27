@@ -24,7 +24,7 @@ public class SeedTests {
         }
 
         for (int i = 0; i < PlainTextExNum; i++) {
-            test.getExercises().add(GetExampleMarkdownExercise("Przykładowe **pytanie** nr " + (i + 1) + " - $typ = MARKDOWN$",  versionsNum));
+            test.getExercises().add(GetExampleMarkdownExercise("Przykładowe **pytanie** nr " + (i + 1) + " - $$(E=mc^2)$$，$$x_{1,2} = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2b}.$$",  versionsNum));
         }
 
         for (int i = 0; i < PlainTextExNum; i++) {
@@ -40,7 +40,7 @@ public class SeedTests {
 
         for (int i = 0; i < PlainTextExNum; i++) {
             test.getExercises().add(GetExampleChooseMarkdownExercise(
-                "Przykładowe **pytanie** nr " + (i + 1) + " - $typ = CHOOSE_MARKDOWN$",
+                "Przykładowe **pytanie** nr " + (i + 1) + " - $$typ = CHOOSE_MARKDOWN$$",
                 "typ CHOSE_PLAINTEXT",  versionsNum, 5, 50
             ));
         }
