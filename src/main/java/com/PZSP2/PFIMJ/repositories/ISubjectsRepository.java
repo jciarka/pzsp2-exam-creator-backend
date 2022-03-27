@@ -2,6 +2,7 @@ package com.PZSP2.PFIMJ.repositories;
 
 import com.PZSP2.PFIMJ.db.entities.Subject;
 import com.PZSP2.PFIMJ.db.entities.User;
+import com.PZSP2.PFIMJ.projections.SubjectProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,6 +18,8 @@ public interface ISubjectsRepository extends JpaRepository<Subject, Long> {
 
     public Optional<Subject> findSubjectByName(String name);
 
-    @Query("SELECT s FROM Subject s JOIN s.subjectUsers su on su.id.userId = :userId")
-    public List<Subject> findByUserId(@Param("userId") Long userId);
+//    @Query("SELECT s FROM Subject s JOIN s.subjectUsers su on su.id.userId = :userId")
+//    public List<Subject> findByUserId(@Param("userId") Long userId);
+    @Query("SELECT new com.PZSP2.PFIMJ.projections.SubjectProjection(s.id,s.name,s.description) FROM Subject s JOIN s.subjectUsers su on su.id.userId = :userId")
+    public List<SubjectProjection> findByUserId(@Param("userId") Long userId);
 }
