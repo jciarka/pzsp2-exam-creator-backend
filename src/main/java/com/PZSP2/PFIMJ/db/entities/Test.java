@@ -1,6 +1,9 @@
 package com.PZSP2.PFIMJ.db.entities;
 
 import com.PZSP2.PFIMJ.core.tests.TestContentConverter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +12,7 @@ import java.util.List;
 
 @Getter
 @Setter
+
 @Entity
 @Table(
         name = "tests",
@@ -16,6 +20,7 @@ import java.util.List;
             @Index(columnList = "subject_id", name = "test_to_subject_ix")
         }
 )
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "subject"})
 public class Test {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subjects_generator")
