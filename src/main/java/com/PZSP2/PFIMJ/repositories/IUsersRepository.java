@@ -24,4 +24,7 @@ public interface IUsersRepository extends JpaRepository<User, Long> {
     public Optional<User> findByEmail(String email);
 
     public List<User> findByEmailContaining(String email);
+
+    @Query("SELECT u FROM User u LEFT JOIN FETCH u.subjectUsers su where su.id.subjectId = :subjectId")
+    public List<User> findBySubjectId(@Param("subjectId") long subjectId);
 }

@@ -128,4 +128,9 @@ public class UsersService  {
     }
     return null;
   }
+
+  public List<User> getSubjectParticipants(long subjectId) {
+    List<User> subjectParticipants = urepo.findBySubjectId(subjectId);
+    return subjectParticipants;
+  }
 }

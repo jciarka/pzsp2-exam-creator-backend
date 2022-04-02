@@ -1,6 +1,8 @@
 package com.PZSP2.PFIMJ.db.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,6 +23,7 @@ import java.util.Set;
         }
 )
 @NoArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "subject"})
 public class SubjectUser {
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subjectusers_generator")
