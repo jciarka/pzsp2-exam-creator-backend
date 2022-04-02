@@ -18,8 +18,6 @@ public interface ISubjectsRepository extends JpaRepository<Subject, Long> {
 
     public Optional<Subject> findSubjectByName(String name);
 
-//    @Query("SELECT s FROM Subject s JOIN s.subjectUsers su on su.id.userId = :userId")
-//    public List<Subject> findByUserId(@Param("userId") Long userId);
     @Query("SELECT new com.PZSP2.PFIMJ.projections.SubjectProjection(s.id,s.name,s.description) FROM Subject s JOIN s.subjectUsers su on su.id.userId = :userId")
     public List<SubjectProjection> findByUserId(@Param("userId") Long userId);
 }

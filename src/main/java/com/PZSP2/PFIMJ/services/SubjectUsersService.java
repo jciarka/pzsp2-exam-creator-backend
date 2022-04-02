@@ -58,6 +58,17 @@ public class SubjectUsersService {
         return  sUser;
     }
 
+    public SubjectUser addUserToSubject2(Long userId, Long subjectId, List<Long> rolesId)
+    {
+        SubjectUser sUser = addUserToSubject(userId, subjectId);
+        if (sUser == null) return null;
+
+        for (Long roleid : rolesId) {
+            addUserToRole(userId, subjectId, roleid);
+        }
+        return sUser;
+    }
+
     public void removeUserFromSubject(Long userId, Long subjectId)
     {
         SubjectUser sUser = surepo.findByUserIdAndSubjectId(userId, subjectId).orElse(null);
@@ -74,6 +85,16 @@ public class SubjectUsersService {
         if (sUser == null || roleName == null)
             return null;
 
+        sUser.getRoles().add(role);
+        return surepo.save(sUser);
+    }
+
+    public SubjectUser addUserToRole(Long userId, Long subjectId, Long roleId){
+        SubjectUser sUser = surepo.findByUserIdAndSubjectId(userId, subjectId).orElse(null);
+        SubjectRole role = srrepo.findById(roleId).orElse(null);
+
+        if (sUser == null || role == null)
+            return null;
         sUser.getRoles().add(role);
         return surepo.save(sUser);
     }
