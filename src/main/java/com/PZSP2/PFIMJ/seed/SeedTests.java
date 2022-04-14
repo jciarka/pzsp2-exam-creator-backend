@@ -4,7 +4,7 @@ import com.PZSP2.PFIMJ.core.tests.ExerciseTypes;
 import com.PZSP2.PFIMJ.db.entities.Answer;
 import com.PZSP2.PFIMJ.db.entities.Exercise;
 import com.PZSP2.PFIMJ.db.entities.ExerciseVersion;
-import com.PZSP2.PFIMJ.db.entities.Test;
+import com.PZSP2.PFIMJ.models.tests.PrintableTest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.Random;
 
 public class SeedTests {
-    public  static Test GetExampleTest(int versionsNum, int PlainTextExNum, int MarkdownExNum, int HtmlExNum, int ChoosePlainExNum, int ChooseMarkdownNum)
+    public  static PrintableTest GetExampleTest(int versionsNum, int PlainTextExNum, int MarkdownExNum, int HtmlExNum, int ChoosePlainExNum, int ChooseMarkdownNum)
     {
-        Test test = new Test();
+        PrintableTest test = new PrintableTest();
         test.setTitle("Test 1");
         test.setDescription("Kol. 1");
         test.setExercises(new ArrayList<>());

@@ -5,6 +5,7 @@ import com.PZSP2.PFIMJ.db.entities.Answer;
 import com.PZSP2.PFIMJ.db.entities.Exercise;
 import com.PZSP2.PFIMJ.db.entities.ExerciseVersion;
 import com.PZSP2.PFIMJ.db.entities.Test;
+import com.PZSP2.PFIMJ.models.tests.PrintableTest;
 import com.PZSP2.PFIMJ.seed.SeedTests;
 import com.PZSP2.PFIMJ.services.TestGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,34 +69,30 @@ public class PdfGeneratorController extends ControllerBase {
         return stream.toByteArray();
     }
 
-    private Test getExampleTest() {
+    private PrintableTest getExampleTest() {
         ExerciseVersion version1 = new ExerciseVersion(
             "Oto jest pytanie - wersia nr 1",
-            Arrays.asList(new Answer[]{
-                new Answer("Odpowiedź 1", true),
-                new Answer("Odpowiedź 2", false),
-                new Answer("Odpowiedź 3", false),
-                new Answer("odpowiedź 4", true)
-        }));
+            Arrays.asList(new Answer("Odpowiedź 1", true),
+                    new Answer("Odpowiedź 2", false),
+                    new Answer("Odpowiedź 3", false),
+                    new Answer("odpowiedź 4", true)));
 
         ExerciseVersion version2 = new ExerciseVersion(
                 "Oto jest pytanie - wersia nr 2",
-                Arrays.asList(new Answer[]{
-                        new Answer("Odpowiedź 1", true),
+                Arrays.asList(new Answer("Odpowiedź 1", true),
                         new Answer("Odpowiedź 2", false),
                         new Answer("Odpowiedź 3", false),
-                        new Answer("odpowiedź 4", true)
-                }));
+                        new Answer("odpowiedź 4", true)));
 
         Exercise exercise = new Exercise();
         exercise.setVersions(Arrays.asList(
-                new ExerciseVersion[] { version1, version2 })
+                version1, version2)
         );
 
         exercise.setTitle("Zadanie z geometrii");
         exercise.setType("CHOOSEONEPLAINTEXT");
 
-        Test test = new Test();
+        PrintableTest test = new PrintableTest();
         test.setTitle("Test 1");
         test.setDescription("Kol. 1");
 

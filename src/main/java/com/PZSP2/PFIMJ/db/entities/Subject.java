@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,6 +38,9 @@ public class Subject {
 
     @OneToMany(mappedBy = "subject")
     private Set<SubjectUser> subjectUsers = new HashSet<>();
+
+    @OneToMany(mappedBy = "subject")
+    private Set<Pool> pools = new HashSet<>();
 
     @OneToMany(mappedBy = "subject")
     private Set<Test> tests  = new HashSet<>();

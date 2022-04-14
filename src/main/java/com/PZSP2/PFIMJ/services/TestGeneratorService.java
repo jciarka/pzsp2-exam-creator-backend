@@ -6,6 +6,7 @@ import com.PZSP2.PFIMJ.db.entities.Answer;
 import com.PZSP2.PFIMJ.db.entities.Exercise;
 import com.PZSP2.PFIMJ.db.entities.ExerciseVersion;
 import com.PZSP2.PFIMJ.db.entities.Test;
+import com.PZSP2.PFIMJ.models.tests.PrintableTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -27,7 +28,7 @@ public class TestGeneratorService {
             String subjectName,
             String testName,
             Date testDate,
-            Test test,
+            PrintableTest test,
             int version,
             boolean mixVerions,
             boolean mixExercises,

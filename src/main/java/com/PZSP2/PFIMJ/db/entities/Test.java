@@ -1,23 +1,22 @@
 package com.PZSP2.PFIMJ.db.entities;
 
-import com.PZSP2.PFIMJ.core.tests.TestContentConverter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
-
 @Entity
 @Table(
         name = "tests",
         indexes = {
-            @Index(columnList = "subject_id", name = "test_to_subject_ix")
+                @Index(columnList = "subject_id", name = "test_to_subject_ix")
         }
 )
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "subject"})
@@ -37,7 +36,6 @@ public class Test {
     @JoinColumn(name="subject_id", nullable=false, foreignKey = @ForeignKey(name = "test_to_subject_fk"))
     private Subject subject;
 
-    @Lob
-    @Convert(converter = TestContentConverter.class)
-    private List<Exercise> exercises;
+    @OneToMany(mappedBy = "test")
+    private Set<TestExercise> exercises = new HashSet<>();
 }
