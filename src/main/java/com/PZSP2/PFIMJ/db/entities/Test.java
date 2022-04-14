@@ -33,7 +33,11 @@ public class Test {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name="subject_id", nullable=false, foreignKey = @ForeignKey(name = "test_to_subject_fk"))
+    @JoinColumn(
+            name="subject_id",
+            nullable=false,
+            foreignKey = @ForeignKey(name = "test_to_subject_fk")
+    )
     private Subject subject;
 
     @OneToMany(mappedBy = "test")
