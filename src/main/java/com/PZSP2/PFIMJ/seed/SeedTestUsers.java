@@ -53,7 +53,7 @@ public class SeedTestUsers {
         List<Subject> subjects = new ArrayList<>();
         subjects.add(new Subject("PZSP2", "Projekt zespołowy 2"));
         subjects.add(new Subject("PZSP1", "Projekt zespołowy 1"));
-        subjects.add(new Subject("BSS", "Bezpieczeństwo systemów i sieci"));
+//        subjects.add(new Subject("BSS", "Bezpieczeństwo systemów i sieci"));
         subjects.add(new Subject("PAP", "Programowanie aplikacyjne"));
         subjects.add(new Subject("WSI", "Wstęp do sztucznej inteligencji"));
         subjects.add(new Subject("MNUM", "Metody numeryczne"));
