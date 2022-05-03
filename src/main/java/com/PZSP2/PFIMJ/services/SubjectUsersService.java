@@ -95,6 +95,7 @@ public class SubjectUsersService {
 
         if (sUser == null || role == null)
             return null;
+
         sUser.getRoles().add(role);
         return surepo.save(sUser);
     }
