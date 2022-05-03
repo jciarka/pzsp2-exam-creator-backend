@@ -29,4 +29,6 @@ public interface IUsersRepository extends JpaRepository<User, Long> {
     @Query("SELECT su FROM SubjectUser su JOIN FETCH su.user WHERE su.id.subjectId = :subjectId")
     public List<SubjectUser> findBySubjectId(@Param("subjectId") long subjectId);
 
+    @Query("SELECT su FROM SubjectUser su JOIN FETCH su.user WHERE su.id.subjectId = :subjectId AND su.id.userId = :userId")
+    public Optional<SubjectUser> findBySubjectIdAndUserId(@Param("subjectId") long subjectId, @Param("userId") long userId);
 }
