@@ -121,6 +121,16 @@ public class AuthController extends ControllerBase {
     }
     return new ResponseEntity<>(HttpStatus.OK);
   }
+
+  @GetMapping(value="find/{emailPhrase}")
+  public List<UserModel> getUsersByEmail(@PathVariable("emailPhrase") String emailPhrase){
+    List<UserModel> foundUsers = new ArrayList<>();
+
+    userService.getUsers(emailPhrase)
+            .forEach(x -> foundUsers.add(new UserModel(x)));
+
+    return foundUsers;
+  }
 }
 
 // Based on
