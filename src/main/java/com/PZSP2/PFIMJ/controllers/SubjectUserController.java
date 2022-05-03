@@ -1,6 +1,7 @@
 package com.PZSP2.PFIMJ.controllers;
 
 import com.PZSP2.PFIMJ.db.entities.Subject;
+import com.PZSP2.PFIMJ.db.entities.SubjectRole;
 import com.PZSP2.PFIMJ.db.entities.SubjectUser;
 import com.PZSP2.PFIMJ.models.EmptyResponse;
 import com.PZSP2.PFIMJ.models.Response;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Arrays;
 
@@ -49,7 +51,19 @@ public class SubjectUserController extends ControllerBase {
         return new ResponseEntity<>(new EmptyResponse(true), HttpStatus.OK);
     }
 
-    @PostMapping("{subjectId}/{userId}/{role}")
+    @GetMapping(value="{subjectId}/{userId}/roles")
+    public Iterable<SubjectRole> getParticipantRoles(@PathVariable("subjectId") long subjectId, @PathVariable("userId") long userId){
+        SubjectUser found = this.subjectUsersService.get(userId, subjectId);
+
+        if (found == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND
+            );
+        }
+        return found.getRoles();
+    }
+
+    @PostMapping("{subjectId}/{userId}/roles/{role}")
     public ResponseEntity<EmptyResponse> addSubjectRoleToUser(
             @PathVariable Long subjectId, @PathVariable Long userId, @PathVariable String role
         )
@@ -74,7 +88,7 @@ public class SubjectUserController extends ControllerBase {
         return new ResponseEntity<>(new EmptyResponse(true), HttpStatus.OK);
     }
 
-    @DeleteMapping("{subjectId}/{userId}/{role}")
+    @DeleteMapping("{subjectId}/{userId}/roles/{role}")
     public ResponseEntity<EmptyResponse> removeSubjectRoleFromUser(
             @PathVariable Long subjectId, @PathVariable Long userId, @PathVariable String role
     )

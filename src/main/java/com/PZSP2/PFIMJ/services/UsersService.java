@@ -3,10 +3,13 @@ package com.PZSP2.PFIMJ.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.PZSP2.PFIMJ.db.entities.Role;
+import com.PZSP2.PFIMJ.db.entities.SubjectUser;
 import com.PZSP2.PFIMJ.db.entities.User;
 import com.PZSP2.PFIMJ.models.auth.AddUserModel;
+import com.PZSP2.PFIMJ.models.subject.ParticipantModel;
 import com.PZSP2.PFIMJ.repositories.IRolesRepository;
 import com.PZSP2.PFIMJ.repositories.IUsersRepository;
 
@@ -129,8 +132,8 @@ public class UsersService  {
     return null;
   }
 
-  public List<User> getSubjectParticipants(long subjectId) {
-    List<User> subjectParticipants = urepo.findBySubjectId(subjectId);
-    return subjectParticipants;
+  public List<ParticipantModel> getSubjectParticipants(long subjectId) {
+    List<SubjectUser> subjectParticipants = urepo.findBySubjectId(subjectId);
+    return subjectParticipants.stream().map(x -> new ParticipantModel(x)).collect(Collectors.toList());
   }
 }

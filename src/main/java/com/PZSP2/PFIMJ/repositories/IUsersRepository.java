@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.PZSP2.PFIMJ.db.entities.Subject;
+import com.PZSP2.PFIMJ.db.entities.SubjectUser;
 import com.PZSP2.PFIMJ.db.entities.User;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,6 +26,7 @@ public interface IUsersRepository extends JpaRepository<User, Long> {
 
     public List<User> findByEmailContaining(String email);
 
-    @Query("SELECT u FROM User u LEFT JOIN FETCH u.subjectUsers su where su.id.subjectId = :subjectId")
-    public List<User> findBySubjectId(@Param("subjectId") long subjectId);
+    @Query("SELECT su FROM SubjectUser su JOIN FETCH su.user WHERE su.id.subjectId = :subjectId")
+    public List<SubjectUser> findBySubjectId(@Param("subjectId") long subjectId);
+
 }
