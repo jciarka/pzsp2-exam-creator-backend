@@ -70,8 +70,8 @@ public class TestService {
         return false;
     }
 
-    public List<TestProjection> getTestsByTitleLike(String title) {
-        List<TestProjection> subjectTests = trepo.findTestByTitleLike("%" + title + "%");
+    public List<TestProjection> getTestsByIdAndTitleLike(long subjectId, String title) {
+        List<TestProjection> subjectTests = trepo.findTestBySubjectIdAndTitleLike(subjectId, "%" + title + "%");
         return subjectTests;
     }
 }
