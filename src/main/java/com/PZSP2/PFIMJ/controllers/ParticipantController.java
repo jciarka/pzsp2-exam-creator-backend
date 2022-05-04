@@ -29,4 +29,9 @@ public class ParticipantController {
     public List<ParticipantModel> getSubjectParticipants(@PathVariable("subjectId") long subjectId){
         return this.usersService.getSubjectParticipants(subjectId);
     }
+
+    @GetMapping(value="{subjectId}/{userId}")
+    public ParticipantModel getSubjectParticipants(@PathVariable("subjectId") long subjectId, @PathVariable("userId") long userId){
+        return this.usersService.getSubjectUserParticipant(subjectId, userId);
+    }
 }

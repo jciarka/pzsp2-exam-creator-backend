@@ -136,4 +136,11 @@ public class UsersService  {
     List<SubjectUser> subjectParticipants = urepo.findBySubjectId(subjectId);
     return subjectParticipants.stream().map(x -> new ParticipantModel(x)).collect(Collectors.toList());
   }
+
+  public ParticipantModel getSubjectUserParticipant(long subjectId, long userId) {
+    SubjectUser participant = urepo.findBySubjectIdAndUserId(subjectId, userId).orElse(null);
+    if (participant == null)
+      return null;
+    return new ParticipantModel(participant);
+  }
 }
