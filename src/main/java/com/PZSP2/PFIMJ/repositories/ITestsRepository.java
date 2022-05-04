@@ -3,6 +3,7 @@ package com.PZSP2.PFIMJ.repositories;
 import com.PZSP2.PFIMJ.db.entities.Subject;
 
 import com.PZSP2.PFIMJ.db.entities.Test;
+import com.PZSP2.PFIMJ.models.TestModel;
 import com.PZSP2.PFIMJ.projections.TestProjection;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,7 +15,7 @@ import java.util.Optional;
 
 @Repository
 public interface ITestsRepository extends JpaRepository<Test, Long> {
-    public Optional<Test> findTestByTitle(String name);
+    public List<TestProjection> findTestByTitleLike(String name);
 
 //    @Query("SELECT new com.PZSP2.PFIMJ.projections.TestProjection(t.id,t.title,t.description,t.subject,t.exercises) FROM Test t JOIN t.subject s on s.id = :subjectId")
     public List<TestProjection> findBySubjectId(long subjectId);

@@ -12,6 +12,7 @@ import com.PZSP2.PFIMJ.repositories.ITestsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,4 +38,40 @@ public class TestService {
         return trepo.save(test);
     }
 
+    public boolean deleteTest(Long id){
+        Optional<Test> toDelete = trepo.findById(id);
+        if(!toDelete.isEmpty()){
+            trepo.delete(toDelete.get());
+            return true;
+        }
+        return false;
+    }
+
+    public boolean renameTest(TestModel request, Long testId) {
+        Optional<Test> testToUpdate = trepo.findById(testId);
+        if (!testToUpdate.isEmpty()){
+            Test testToUpdateClass = testToUpdate.get();
+            testToUpdateClass.setTitle(request.getTitle());
+            trepo.save(testToUpdateClass);
+            return true;
+        }
+        return false;
+    }
+    
+
+    public boolean changeDescriptionPool(TestModel request, Long testId) {
+        Optional<Test> testToUpdate = trepo.findById(testId);
+        if (!testToUpdate.isEmpty()){
+            Test testToUpdateClass = testToUpdate.get();
+            testToUpdateClass.setDescription(request.getDescription());
+            trepo.save(testToUpdateClass);
+            return true;
+        }
+        return false;
+    }
+
+    public List<TestProjection> getTestsByTitleLike(String title) {
+        List<TestProjection> subjectTests = trepo.findTestByTitleLike("%" + title + "%");
+        return subjectTests;
+    }
 }

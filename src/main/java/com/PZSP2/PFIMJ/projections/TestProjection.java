@@ -1,7 +1,7 @@
 package com.PZSP2.PFIMJ.projections;
 
 import com.PZSP2.PFIMJ.db.entities.Subject;
-import com.PZSP2.PFIMJ.db.entities.Exercise;
+import com.PZSP2.PFIMJ.db.entities.TestExercise;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,9 +15,9 @@ public class TestProjection {
     private String title;
     private String description;
     private Subject subject;
-    private List<Exercise> exercises;
+    private TestExercise exercises;
 
-    public TestProjection(Long id, String title, String description, Subject subject, List<Exercise> exercises) {
+    public TestProjection(Long id, String title, String description, Subject subject, TestExercise exercises) {
         this.id = id;
         this.title = title;
         this.description = description;
