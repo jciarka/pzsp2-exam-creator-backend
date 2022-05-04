@@ -1,6 +1,7 @@
 package com.PZSP2.PFIMJ.controllers;
 import java.util.List;
 
+import com.PZSP2.PFIMJ.models.EmptyResponse;
 import com.PZSP2.PFIMJ.models.TestModel;
 import com.PZSP2.PFIMJ.projections.TestProjection;
 import com.PZSP2.PFIMJ.services.TestService;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping(path="api/tests")
-public class TestController {
+public class TestController extends ControllerBase{
     
     private final TestService testService;
 
@@ -39,13 +40,19 @@ public class TestController {
     }
 
     @PostMapping(value="/add",consumes="application/json")
-    public ResponseEntity addTest(@RequestBody TestModel request){
+    public ResponseEntity<EmptyResponse> addTest(@RequestBody TestModel request){
+        if (!isAuthenticated()){
+            return new ResponseEntity<>(new EmptyResponse(false), HttpStatus.UNAUTHORIZED);
+        }
         testService.addTest(request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping(value="/delete/{testId}")
-    public ResponseEntity deleteTest(@PathVariable Long testId){
+    public ResponseEntity<EmptyResponse> deleteTest(@PathVariable Long testId){
+        if (!isAuthenticated()){
+            return new ResponseEntity<>(new EmptyResponse(false), HttpStatus.UNAUTHORIZED);
+        }
         boolean isDeleted = testService.deleteTest(testId);
         if(!isDeleted){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -53,7 +60,10 @@ public class TestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @PutMapping(value="/rename/{testId}",consumes="application/json")
-    public ResponseEntity updateTitleTest(@PathVariable Long testId, @RequestBody TestModel request){
+    public ResponseEntity<EmptyResponse> updateTitleTest(@PathVariable Long testId, @RequestBody TestModel request){
+        if (!isAuthenticated()){
+            return new ResponseEntity<>(new EmptyResponse(false), HttpStatus.UNAUTHORIZED);
+        }
         boolean isUpdated = testService.renameTest(request,testId);
         if(!isUpdated){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -62,7 +72,10 @@ public class TestController {
     }
 
     @PutMapping(value="/description/{testId}",consumes="application/json")
-    public ResponseEntity updateDescriptionTest(@PathVariable Long testId, @RequestBody TestModel request){
+    public ResponseEntity<EmptyResponse> updateDescriptionTest(@PathVariable Long testId, @RequestBody TestModel request){
+        if (!isAuthenticated()){
+            return new ResponseEntity<>(new EmptyResponse(false), HttpStatus.UNAUTHORIZED);
+        }
         boolean isUpdated = testService.changeDescriptionPool(request,testId);
         if(!isUpdated){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
