@@ -21,7 +21,6 @@ public class ExerciseContentConverter implements AttributeConverter<List<Exercis
         try {
             testJson = mapper.writeValueAsString(testContent);
         } catch (final JsonProcessingException e) {
-
         }
         return testJson;
     }
@@ -31,7 +30,7 @@ public class ExerciseContentConverter implements AttributeConverter<List<Exercis
 
         List<ExerciseVersion> content = null;
         try {
-            content = mapper.readValue(testContentJSON, mapper.getTypeFactory().constructCollectionType(List.class, Exercise.class));
+            content = mapper.readValue(testContentJSON, mapper.getTypeFactory().constructCollectionType(List.class, ExerciseVersion.class));
         } catch (final IOException e) {
         }
 
