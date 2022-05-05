@@ -2,9 +2,11 @@ package com.PZSP2.PFIMJ.db.entities;
 
 import com.PZSP2.PFIMJ.core.tests.ExerciseContentConverter;
 import com.PZSP2.PFIMJ.core.tests.TestContentConverter;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -13,6 +15,7 @@ import java.util.Set;
 
 @Data
 @Entity
+@ToString
 @Table(
         name = "Exercises",
         indexes = {
