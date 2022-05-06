@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -27,6 +28,10 @@ public class ExerciseService {
 
     public List<ExerciseModel> getByTittleContaining(String phrase){
         List<ExerciseModel> exerciseModelList = exre.findByTitleContaining(phrase);
+        return exerciseModelList;
+    }
+    public List<Exercise> getByVersionsContaining(String phrase){
+        List<Exercise> exerciseModelList = exre.findByVersionsContaining(phrase.toLowerCase());
         return exerciseModelList;
     }
 
@@ -52,10 +57,10 @@ public class ExerciseService {
         }
         return false;
     }
-    public boolean changeTitle(Long id,String tittle){
+    public boolean changeTitle(Long id,String title){
         Exercise toEdit = exre.findById(id).orElse(null);
         if(toEdit!=null){
-            toEdit.setTitle(tittle);
+            toEdit.setTitle(title);
             exre.save(toEdit);
             return true;
         }

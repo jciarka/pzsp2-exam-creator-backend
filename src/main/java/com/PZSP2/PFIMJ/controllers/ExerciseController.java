@@ -26,8 +26,12 @@ public class ExerciseController extends ControllerBase {
         return exerciseService.getBy(poolId);
     }
     @GetMapping(value="/titleContent")
-    public List<ExerciseModel> getExerciseByTittleContent(@RequestBody String phrase){
+    public List<ExerciseModel> getExerciseByTitleContent(@RequestBody String phrase){
         return exerciseService.getByTittleContaining(phrase);
+    }
+    @GetMapping(value="/versionsContent")
+    public List<Exercise> getExerciseByVersionsContent(@RequestBody String phrase){
+        return exerciseService.getByVersionsContaining(phrase);
     }
 
     @PostMapping(value="/add", consumes="application/json")
@@ -45,6 +49,9 @@ public class ExerciseController extends ControllerBase {
 
     @DeleteMapping(value="/delete/{id}")
     public ResponseEntity deleteExercise(@PathVariable("id") Long id){
+//        if (!isAuthenticated()){
+//            return new ResponseEntity<>(new EmptyResponse(false), HttpStatus.UNAUTHORIZED);
+//        }
         boolean isDeleted = exerciseService.deleteExercise(id);
         if (isDeleted){
             return ResponseEntity.ok().body("Exercise deleted");
@@ -52,7 +59,7 @@ public class ExerciseController extends ControllerBase {
         return ResponseEntity.badRequest().body("Exercise to delete not found");
     }
 
-    @PutMapping(value = "/{exerciseId}/tittle", consumes = "application/json")
+    @PutMapping(value = "/{exerciseId}/title", consumes = "application/json")
     public ResponseEntity changeTittle(@PathVariable("exerciseId") Long id, @RequestBody ExerciseModel exercise) {
 //        if (!isAuthenticated()){
 //            return new ResponseEntity<>(new EmptyResponse(false), HttpStatus.UNAUTHORIZED);
