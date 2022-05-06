@@ -2,6 +2,7 @@ package com.PZSP2.PFIMJ.db.entities;
 
 import com.PZSP2.PFIMJ.core.tests.TestContentConverter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -31,6 +32,7 @@ public class Pool {
     private String description;
 
     @OneToMany(mappedBy = "pool")
+    @JsonManagedReference
     private Set<Exercise> exercises = new HashSet<>();
 
     @ManyToOne
