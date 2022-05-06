@@ -1,8 +1,12 @@
 package com.PZSP2.PFIMJ.services;
 
+
 import com.PZSP2.PFIMJ.db.entities.Subject;
 import com.PZSP2.PFIMJ.db.entities.User;
+import com.PZSP2.PFIMJ.models.PoolModel;
 import com.PZSP2.PFIMJ.projections.SubjectProjection;
+import com.PZSP2.PFIMJ.projections.SubjectProjectionwithPools;
+import com.PZSP2.PFIMJ.repositories.IPoolsRepository;
 import com.PZSP2.PFIMJ.repositories.ISubjectsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +22,9 @@ public class SubjectsService {
 
     @Autowired
     private SubjectUsersService suservice;
+
+    @Autowired
+    private IPoolsRepository pore;
 
     public Subject get(Long id) {
         return srepo.findById(id).orElse(null);
@@ -57,8 +64,14 @@ public class SubjectsService {
         return subject;
     }
 
-    public List<SubjectProjection> getUserSubjects(long userId){
+    public List<SubjectProjectionwithPools> getUserSubjects(long userId){
+        List<SubjectProjectionwithPools> userSubjectswithPools = new ArrayList<>();
         List<SubjectProjection> userSubjects = srepo.findByUserId(userId);
-        return userSubjects;
+        for (SubjectProjection temporary : userSubjects) {
+            List<PoolModel> poollist = pore.findBySubjectId(temporary.getId());
+            SubjectProjectionwithPools tempProjection = new SubjectProjectionwithPools(temporary.getId(), temporary.getName(), temporary.getDescription(), poollist);
+            userSubjectswithPools.add(tempProjection);
+        }
+        return userSubjectswithPools;
     }
 }

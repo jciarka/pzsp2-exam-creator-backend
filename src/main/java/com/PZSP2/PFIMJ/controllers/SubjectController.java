@@ -5,6 +5,7 @@ import com.PZSP2.PFIMJ.db.entities.Subject;
 import com.PZSP2.PFIMJ.models.Response;
 import com.PZSP2.PFIMJ.models.auth.UserModel;
 import com.PZSP2.PFIMJ.projections.SubjectProjection;
+import com.PZSP2.PFIMJ.projections.SubjectProjectionwithPools;
 import com.PZSP2.PFIMJ.services.SubjectsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,7 @@ public class SubjectController extends ControllerBase {
     }
 
     @GetMapping(value = "{userId}")
-    public List<SubjectProjection> getUserSubjects(@PathVariable("userId") long userId) {
+    public List<SubjectProjectionwithPools> getUserSubjects(@PathVariable("userId") long userId) {
         return this.subjectsService.getUserSubjects(userId);
     }
 
