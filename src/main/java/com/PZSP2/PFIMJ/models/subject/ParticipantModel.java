@@ -1,5 +1,6 @@
 package com.PZSP2.PFIMJ.models.subject;
 
+import com.PZSP2.PFIMJ.db.entities.Role;
 import com.PZSP2.PFIMJ.db.entities.SubjectRole;
 import com.PZSP2.PFIMJ.db.entities.SubjectUser;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,8 @@ public class ParticipantModel {
     private String institute;
     private String faculty;
     private List<SubjectRole> subjectRoles;
+    private List<Role> roles;
+
 
     public ParticipantModel(SubjectUser subjectUser) {
         userId = subjectUser.getId().getUserId();
@@ -35,5 +38,6 @@ public class ParticipantModel {
         institute = subjectUser.getUser().getInstitute();
         faculty = subjectUser.getUser().getFaculty();
         subjectRoles = subjectUser.getRoles().stream().collect(Collectors.toList());
+        roles = subjectUser.getUser().getRoles().stream().collect(Collectors.toList());
     }
 }

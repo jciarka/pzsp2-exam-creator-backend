@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path="api/participants")
-public class ParticipantController {
+public class ParticipantController extends ControllerBase {
 
 
     private final UsersService usersService;
@@ -28,6 +28,12 @@ public class ParticipantController {
     @GetMapping(value="{subjectId}")
     public List<ParticipantModel> getSubjectParticipants(@PathVariable("subjectId") long subjectId){
         return this.usersService.getSubjectParticipants(subjectId);
+    }
+
+    @GetMapping(value="{subjectId}/myself")
+    public ParticipantModel getMyselfAsSubjectParticipants(@PathVariable("subjectId") long subjectId) {
+        Long myId = getAuthenticatedUser().getId();
+        return this.usersService.getSubjectUserParticipant(subjectId, myId);
     }
 
     @GetMapping(value="{subjectId}/{userId}")
