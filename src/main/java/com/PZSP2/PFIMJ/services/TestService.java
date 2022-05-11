@@ -4,6 +4,7 @@ import com.PZSP2.PFIMJ.db.entities.Subject;
 import com.PZSP2.PFIMJ.db.entities.Test;
 import com.PZSP2.PFIMJ.db.entities.User;
 import com.PZSP2.PFIMJ.models.TestModel;
+import com.PZSP2.PFIMJ.models.tests.PrintableTest;
 import com.PZSP2.PFIMJ.projections.SubjectProjection;
 import com.PZSP2.PFIMJ.projections.TestProjection;
 import com.PZSP2.PFIMJ.repositories.ISubjectsRepository;
@@ -23,6 +24,10 @@ public class TestService {
     private ITestsRepository trepo;
     @Autowired
     private ISubjectsRepository sure;
+    public PrintableTest getPrintableTest(long testId) {
+        Test test = trepo.findByIdWithSubjectAndTests(testId).orElse(null);
+        return test != null ? new PrintableTest(test) : null;
+    }
     
     public List<TestProjection> getSubjectTests(long subjectId){
         List<TestProjection> subjectTests = trepo.findBySubjectId(subjectId);

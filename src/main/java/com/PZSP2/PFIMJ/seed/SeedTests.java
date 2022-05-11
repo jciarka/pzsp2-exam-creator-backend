@@ -15,6 +15,7 @@ public class SeedTests {
     public  static PrintableTest GetExampleTest(int versionsNum, int PlainTextExNum, int MarkdownExNum, int HtmlExNum, int ChoosePlainExNum, int ChooseMarkdownNum)
     {
         PrintableTest test = new PrintableTest();
+        test.setSubjectName("Przedmiot TEST");
         test.setTitle("Test 1");
         test.setDescription("Kol. 1");
         test.setExercises(new ArrayList<>());

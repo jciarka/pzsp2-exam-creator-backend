@@ -25,11 +25,9 @@ public class TestGeneratorService {
     private ITestParser parser;
 
     public void AddTest(
-            String subjectName,
-            String testName,
-            Date testDate,
             PrintableTest test,
-            int version,
+            Date testDate,
+            Integer version,
             boolean mixVerions,
             boolean mixExercises,
             boolean mixChooseAnswers,
@@ -37,7 +35,7 @@ public class TestGeneratorService {
     ) throws IOException {
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        parser.addTestHeader(subjectName + " - " + testName + " - " + formatter.format(testDate));
+        parser.addTestHeader(test.getSubjectName() + " - " + test.getTitle() + " - " + formatter.format(testDate));
         parser.addBlankLines(1);
 
         List<Exercise> exercises = test.getExercises().stream().collect(Collectors.toList());
@@ -48,10 +46,16 @@ public class TestGeneratorService {
         for (int i = 0; i < exercises.size(); i++) {
             addExercise(i + 1, exercises.get(i), version, mixVerions, mixChooseAnswers, markCorrectAnswers);
         }
+
+        parser.addPageBreak();
     }
 
-    private void addExercise(int number, Exercise exercise, int version, boolean mixVerions, boolean mixChooseAnswers, boolean markCorrectAnswers) throws IOException {
-        parser.addTaskHeader(number, 0);
+    private void addExercise(int number, Exercise exercise, Integer version, boolean mixVerions, boolean mixChooseAnswers, boolean markCorrectAnswers) throws IOException {
+        if (exercise.getPoints() != null) {
+            parser.addTaskHeader(number, exercise.getPoints());
+        } else {
+            parser.addTaskHeader(number);
+        }
 
         int exerciseVersion = getVersion(version, exercise.getVersions().size(), mixVerions);
         switch (exercise.getType()){
@@ -71,12 +75,12 @@ public class TestGeneratorService {
         }
     }
 
-    private int getVersion(int versionNumber, int versionsCount, boolean mixVersions){
+    private int getVersion(Integer versionNumber, Integer versionsCount, boolean mixVersions){
         Random generator = new Random();
         return !mixVersions ? versionNumber % versionsCount : generator.nextInt(versionsCount);
     }
 
-    private void addChoose(Exercise exercise, int version, boolean mixChooseAnswers, boolean markCorrectAnswers) throws IOException {
+    private void addChoose(Exercise exercise, Integer version, boolean mixChooseAnswers, boolean markCorrectAnswers) throws IOException {
         List<Answer> answers = exercise.getVersions().get(version).getAnswers().stream().collect(Collectors.toList());
 
         if (mixChooseAnswers)
