@@ -1,16 +1,17 @@
 package com.PZSP2.PFIMJ.db.entities;
 
 import com.PZSP2.PFIMJ.core.tests.ExerciseContentConverter;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Data
+
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table(
         name = "ExerciseTestReferences",

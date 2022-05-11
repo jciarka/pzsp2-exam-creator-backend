@@ -89,6 +89,21 @@ public class ITextTestParser implements ITestParser {
     }
 
     @Override
+    public void addTaskHeader(int taskNumber) throws IOException {
+        String taskHeader = "zad " + taskNumber + ".";
+        // Creating text object
+        Text taskHeaderObject = new Text(taskHeader);
+
+        PdfFont font = PdfFontFactory.createFont(FontConstants.HELVETICA_BOLD);
+        taskHeaderObject.setFont(font);
+        Paragraph taskHeaderParagraph = new Paragraph(taskHeaderObject);
+        taskHeaderParagraph.setMultipliedLeading(0);
+
+        document.add(taskHeaderParagraph);
+    }
+
+
+    @Override
     public void addPlainTextParagraph(String text) {
         Text textObj = new Text(text);
         Paragraph para = new Paragraph(textObj);

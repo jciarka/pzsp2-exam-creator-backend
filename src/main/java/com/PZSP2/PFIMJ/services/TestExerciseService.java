@@ -30,7 +30,30 @@ public class TestExerciseService {
             return null;
         }
 
-        TestExercise testExercise = new TestExercise();
+        TestExercise testExercise = TestExercise.builder()
+            .exercise(exercise)
+            .test(test)
+            .exerciseNumber(exerciseNumber)
+            .build();
+
+        return teexre.save(testExercise);
+    }
+
+    public TestExercise addExerciseToTest(Long exerciseId, Long testId){
+        Exercise exercise = exre.findById(exerciseId).orElse(null);
+        Test test = tere.findById(testId).orElse(null);
+        int number = teexre.findLastExerciseNumberInTest(testId).orElse(0) + 1;
+
+        if (exercise == null || test == null){
+            return null;
+        }
+
+        TestExercise testExercise = TestExercise.builder()
+                .exercise(exercise)
+                .test(test)
+                .exerciseNumber(number)
+                .build();
+
         return teexre.save(testExercise);
     }
 }
