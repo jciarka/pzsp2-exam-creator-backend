@@ -9,6 +9,8 @@ public interface ITestParser {
 
     void addTaskHeader(int taskNumber, int TaskPoints) throws IOException;
 
+    void addTaskHeader(int taskNumber) throws IOException;
+
     void addPlainTextParagraph(String text);
 
     void addBlankLines(int count);

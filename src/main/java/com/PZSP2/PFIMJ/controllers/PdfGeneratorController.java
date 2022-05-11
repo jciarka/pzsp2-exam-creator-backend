@@ -1,30 +1,32 @@
 package com.PZSP2.PFIMJ.controllers;
 
 import com.PZSP2.PFIMJ.core.pdf.ITestParser;
-import com.PZSP2.PFIMJ.db.entities.Answer;
-import com.PZSP2.PFIMJ.db.entities.Exercise;
-import com.PZSP2.PFIMJ.db.entities.ExerciseVersion;
-import com.PZSP2.PFIMJ.db.entities.Test;
+import com.PZSP2.PFIMJ.db.entities.*;
 import com.PZSP2.PFIMJ.models.tests.PrintableTest;
+import com.PZSP2.PFIMJ.repositories.ISubjectsRepository;
+import com.PZSP2.PFIMJ.repositories.ITestsRepository;
 import com.PZSP2.PFIMJ.seed.SeedTests;
 import com.PZSP2.PFIMJ.services.TestGeneratorService;
+import com.PZSP2.PFIMJ.services.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.qkyrie.markdown2pdf.internal.exceptions.ConversionException;
 import com.qkyrie.markdown2pdf.internal.exceptions.Markdown2PdfLogicException;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.xml.crypto.Data;
 import java.io.*;
 import java.lang.reflect.Array;
+import java.time.LocalDateTime;
 import java.util.*;
+
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestController
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -35,73 +37,53 @@ public class PdfGeneratorController extends ControllerBase {
     ITestParser parser;
 
     @Autowired
+    TestService tService;
+
+    @Autowired
     TestGeneratorService genService;
 
     @GetMapping(
-            value = "test",
-            produces = MediaType.APPLICATION_PDF_VALUE
+        value = "{testId}",
+        produces = MediaType.APPLICATION_PDF_VALUE
     )
-    public @ResponseBody byte[] getImageWithMediaType() throws IOException {
-        File file = new ClassPathResource("static/test.pdf").getFile();
-        InputStream in = new FileInputStream(file);
-        byte[] data = in.readAllBytes();
-        in.close();
-        return data;
-    }
-    @GetMapping(
-            value = "test3",
-            produces = MediaType.APPLICATION_PDF_VALUE
-    )
-    public @ResponseBody byte[] getTestDocument() throws IOException, ConversionException, Markdown2PdfLogicException {
+    public @ResponseBody byte[] generatePdfFromTest(
+            @PathVariable Long testId,
+            @RequestParam(name = "version", required = false, defaultValue = "1") final Long version,
+            @RequestParam(name = "mixExercises", required = false, defaultValue = "false") final  Boolean mixExercises,
+            @RequestParam(name = "mixChooseAnswers", required = false, defaultValue = "false") final  Boolean mixChooseAnswers,
+            @RequestParam(name = "appendWithSolved", required = false, defaultValue = "false") final  Boolean appendWithSolved
+        ) throws IOException, ConversionException, Markdown2PdfLogicException, ResponseStatusException {
+
+        PrintableTest test = tService.getPrintableTest(testId);
+
+        if (test == null)
+            throw new ResponseStatusException(NOT_FOUND);
+
         genService.AddTest(
-                "Projekt zespołowy 2",
-                "kolokwium 1",
-                new Date(System.currentTimeMillis()),
-                SeedTests.GetExampleTest(5, 5, 5, 5, 5, 5),
-                1,
-                false,
-                false,
-                false,
-                false
+            test,
+            new Date(System.currentTimeMillis()),
+            version != null ? version.intValue() : null,
+            version != null,
+            mixExercises,
+            mixChooseAnswers,
+            false
         );
+
+        if (appendWithSolved) {
+            genService.AddTest(
+                test,
+                new Date(System.currentTimeMillis()),
+                version.intValue(),
+                version != null,
+                mixExercises,
+                mixChooseAnswers,
+                true
+            );
+        }
+
         ByteArrayOutputStream stream = genService.GetStream();
         genService.Close();
         return stream.toByteArray();
-    }
-
-    private PrintableTest getExampleTest() {
-        ExerciseVersion version1 = new ExerciseVersion(
-            "Oto jest pytanie - wersia nr 1",
-            Arrays.asList(new Answer("Odpowiedź 1", true),
-                    new Answer("Odpowiedź 2", false),
-                    new Answer("Odpowiedź 3", false),
-                    new Answer("odpowiedź 4", true)));
-
-        ExerciseVersion version2 = new ExerciseVersion(
-                "Oto jest pytanie - wersia nr 2",
-                Arrays.asList(new Answer("Odpowiedź 1", true),
-                        new Answer("Odpowiedź 2", false),
-                        new Answer("Odpowiedź 3", false),
-                        new Answer("odpowiedź 4", true)));
-
-        Exercise exercise = new Exercise();
-        exercise.setVersions(Arrays.asList(
-                version1, version2)
-        );
-
-        exercise.setTitle("Zadanie z geometrii");
-        exercise.setType("CHOOSEONEPLAINTEXT");
-
-        PrintableTest test = new PrintableTest();
-        test.setTitle("Test 1");
-        test.setDescription("Kol. 1");
-
-        List<Exercise> exerciseList = new ArrayList<>();
-        exerciseList.add(exercise);
-
-        test.setExercises(exerciseList);
-
-        return test;
     }
 
     @GetMapping(
@@ -181,6 +163,46 @@ public class PdfGeneratorController extends ControllerBase {
         parser.Close();
 
         ByteArrayOutputStream stream = parser.getStream();
+        return stream.toByteArray();
+    }
+
+    @GetMapping(
+            value = "test",
+            produces = MediaType.APPLICATION_PDF_VALUE
+    )
+    public @ResponseBody byte[] getImageWithMediaType() throws IOException {
+        File file = new ClassPathResource("static/test.pdf").getFile();
+        InputStream in = new FileInputStream(file);
+        byte[] data = in.readAllBytes();
+        in.close();
+        return data;
+    }
+    @GetMapping(
+            value = "test3",
+            produces = MediaType.APPLICATION_PDF_VALUE
+    )
+    public @ResponseBody byte[] getTestDocument() throws IOException, ConversionException, Markdown2PdfLogicException {
+        genService.AddTest(
+                SeedTests.GetExampleTest(5, 5, 5, 5, 5, 5),
+                new Date(System.currentTimeMillis()),
+                1,
+                false,
+                false,
+                false,
+                false
+        );
+
+        genService.AddTest(
+                SeedTests.GetExampleTest(5, 5, 5, 5, 5, 5),
+                new Date(System.currentTimeMillis()),
+                1,
+                false,
+                false,
+                false,
+                true
+        );
+        ByteArrayOutputStream stream = genService.GetStream();
+        genService.Close();
         return stream.toByteArray();
     }
 }

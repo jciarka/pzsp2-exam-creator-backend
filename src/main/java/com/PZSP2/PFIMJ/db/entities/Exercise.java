@@ -14,9 +14,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
-@ToString
 @Table(
         name = "Exercises",
         indexes = {
@@ -38,7 +38,7 @@ public class Exercise {
     @Column(columnDefinition = "NUMBER(3,0)")
     Integer points;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="pool_id", nullable=false, foreignKey = @ForeignKey(name = "exercise_to_pool_fk"))
     @JsonBackReference
     private Pool pool;

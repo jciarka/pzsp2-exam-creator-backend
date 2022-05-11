@@ -4,13 +4,16 @@ import com.PZSP2.PFIMJ.core.tests.TestContentConverter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(
         name = "Pools",
