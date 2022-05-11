@@ -39,7 +39,7 @@ public class Exercise {
     @Column(columnDefinition = "NUMBER(3,0)")
     Integer points;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="pool_id", nullable=false, foreignKey = @ForeignKey(name = "exercise_to_pool_fk"))
     @JsonBackReference
     private Pool pool;
