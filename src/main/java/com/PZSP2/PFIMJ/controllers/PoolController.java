@@ -58,4 +58,13 @@ public class PoolController {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    @PostMapping(value="/import/{subjectId}")
+    public ResponseEntity importPoolstoSubject(@PathVariable Long subjectId,@RequestBody List<Long> pools){
+        boolean isCopyed = poolsService.createPoolsCopy(subjectId,pools);
+        if(!isCopyed){
+            return ResponseEntity.badRequest().body("Pools not imported");
+        }
+        return ResponseEntity.ok().body("Pools imported");
+
+    }
 }
