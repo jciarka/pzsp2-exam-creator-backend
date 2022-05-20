@@ -15,7 +15,6 @@ public class SeedSubjectRoles {
     @Autowired
     private ISubjectsRolesRepository srrepo;
 
-    @PostConstruct
     public void init() {
         List<SubjectRole> subjectRoles = new ArrayList<>();
         subjectRoles.add(new SubjectRole("WRITE"));

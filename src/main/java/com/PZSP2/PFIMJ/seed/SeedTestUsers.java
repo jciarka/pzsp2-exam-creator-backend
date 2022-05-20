@@ -30,7 +30,6 @@ public class SeedTestUsers {
     private SubjectUsersService suservice;
     // TEST PURPOSES END
 
-    @PostConstruct
     public void init() {
         List<AddUserModel>  usersToAdd = new ArrayList<>();
         usersToAdd.add(new AddUserModel("user1", "admin", "qwerty", "user1@pw.edu.pl"));
