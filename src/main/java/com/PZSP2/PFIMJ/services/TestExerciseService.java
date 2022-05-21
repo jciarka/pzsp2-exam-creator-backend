@@ -21,7 +21,6 @@ public class TestExerciseService {
     @Autowired
     private IExercisesRepository exre;
 
-    //nieskonczone
     public TestExercise addExerciseToTest(Long exerciseId, Long testId, Integer exerciseNumber){
         Exercise exercise = exre.findById(exerciseId).orElse(null);
         Test test = tere.findById(testId).orElse(null);
