@@ -9,6 +9,8 @@ import com.PZSP2.PFIMJ.repositories.ITestsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TestExerciseService {
 
@@ -20,6 +22,12 @@ public class TestExerciseService {
 
     @Autowired
     private IExercisesRepository exre;
+
+    public void addExercisesToTest(Long testId, List<Long> exercises){
+        for (Long exerciseId : exercises){
+            addExerciseToTest(exerciseId,testId);
+        }
+    }
 
     public TestExercise addExerciseToTest(Long exerciseId, Long testId, Integer exerciseNumber){
         Exercise exercise = exre.findById(exerciseId).orElse(null);
