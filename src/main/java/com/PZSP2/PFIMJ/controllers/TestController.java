@@ -36,7 +36,7 @@ public class TestController extends ControllerBase{
     }
 
     @GetMapping(value="/search/{subjectId}/{title}")
-    public List<TestProjection> getTestsByTitleLike(@PathVariable("subjectId") long subjectId, @PathVariable("title") String title){
+    public List<Test> getTestsByTitleLike(@PathVariable("subjectId") long subjectId, @PathVariable("title") String title){
         return testService.getTestsByIdAndTitleLike(subjectId, title);
     }
 

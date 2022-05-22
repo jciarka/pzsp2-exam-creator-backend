@@ -75,8 +75,8 @@ public class TestService {
         return false;
     }
 
-    public List<TestProjection> getTestsByIdAndTitleLike(long subjectId, String title) {
-        List<TestProjection> subjectTests = trepo.findTestBySubjectIdAndTitleLike(subjectId, "%" + title + "%");
+    public List<Test> getTestsByIdAndTitleLike(long subjectId, String title) {
+        List<Test> subjectTests = trepo.findTestBySubjectIdAndTitleLike(subjectId, "%" + title + "%");
         return subjectTests;
     }
 }
