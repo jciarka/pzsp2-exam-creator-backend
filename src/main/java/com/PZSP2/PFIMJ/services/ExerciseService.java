@@ -40,8 +40,8 @@ public class ExerciseService {
         return exerciseModelList;
     }
 
-    public List<Exercise> getByVersionsContaining(String phrase){
-        List<Exercise> exerciseModelList = exre.findByVersionsContaining(phrase.toLowerCase());
+    public List<Exercise> getByVersionsContaining(String phrase,Long poolId){
+        List<Exercise> exerciseModelList = exre.findByVersionsContaining(phrase.toLowerCase(),poolId);
         return exerciseModelList;
     }
 

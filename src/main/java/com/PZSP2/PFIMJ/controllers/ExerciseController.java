@@ -37,9 +37,13 @@ public class ExerciseController extends ControllerBase {
         }
         return exerciseService.getByTittleContainingAndPoolId(phrase,poolId);
     }
-    @GetMapping(value="/versionsContent")
-    public List<Exercise> getExerciseByVersionsContent(@RequestBody String phrase){
-        return exerciseService.getByVersionsContaining(phrase);
+
+    @GetMapping(value="/versionsContent/{poolId}")
+    public List<Exercise> getExerciseByVersionsContent(@RequestBody(required = false) String phrase,@PathVariable("poolId") Long poolId){
+        if (phrase==null){
+            phrase="";
+        }
+        return exerciseService.getByVersionsContaining(phrase,poolId);
     }
 
     @PostMapping(value="/add", consumes="application/json")

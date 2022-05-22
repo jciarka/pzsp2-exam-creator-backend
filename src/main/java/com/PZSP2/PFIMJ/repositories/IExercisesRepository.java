@@ -21,6 +21,6 @@ public interface IExercisesRepository extends JpaRepository<Exercise,Long> {
 
     public List<ExerciseModel> findByTitleContainingAndPoolId(String phrase,Long poolId);
 
-    @Query(value="SELECT * FROM exercises WHERE Lower(versions) like %:phrase%",nativeQuery = true)
-    public List<Exercise> findByVersionsContaining(@Param("phrase")String phrase);
+    @Query(value="SELECT * FROM exercises WHERE Lower(versions) like %:phrase% AND pool_id=:poolId",nativeQuery = true)
+    public List<Exercise> findByVersionsContaining(@Param("phrase")String phrase,@Param("poolId")Long poolId);
 }
