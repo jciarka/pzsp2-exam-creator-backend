@@ -15,7 +15,9 @@ public interface IExercisesRepository extends JpaRepository<Exercise,Long> {
 
     @Query(value="SELECT new com.PZSP2.PFIMJ.models.ExerciseModel(e.id,e.title,e.type,e.points,e.pool.id,e.versions) FROM Exercise e WHERE e.pool.id =:poolId")
     public List<ExerciseModel> findByPoolId(@Param("poolId") Long poolId);
-
+    
+    @Query(value="SELECT new com.PZSP2.PFIMJ.models.ExerciseModel(e.id,e.title,e.type,e.points,e.pool.id,e.versions) FROM Exercise e JOIN TestExercise t ON e.id=t.exercise.id WHERE t.test.id=:testId")
+    public List<ExerciseModel> findByTestId(@Param("testId") Long testId);
 
     public List<ExerciseModel> findByTitleContaining(String phrase);
 

@@ -25,6 +25,11 @@ public class ExerciseController extends ControllerBase {
     public List<ExerciseModel> getExerciseFromPool(@PathVariable("PoolId") Long poolId){
         return exerciseService.getBy(poolId);
     }
+    @GetMapping(value="/test/{testId}")
+    public List<ExerciseModel> getExerciseFromTest(@PathVariable("testId") Long testId){
+        return exerciseService.getExercisesFrom(testId);
+    }
+
     @GetMapping(value="/titleContent")
     public List<ExerciseModel> getExerciseByTitleContent(@RequestBody String phrase){
         return exerciseService.getByTittleContaining(phrase);
