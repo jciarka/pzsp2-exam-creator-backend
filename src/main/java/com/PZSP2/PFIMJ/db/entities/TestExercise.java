@@ -1,6 +1,8 @@
 package com.PZSP2.PFIMJ.db.entities;
 
 import com.PZSP2.PFIMJ.core.tests.ExerciseContentConverter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,6 +22,7 @@ import java.util.List;
                 @Index(columnList = "test_id", name = "ex_reference_to_test_ix")
         }
 )
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "test"})
 public class TestExercise {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "test_exercise_generator")

@@ -3,6 +3,7 @@ package com.PZSP2.PFIMJ.db.entities;
 import com.PZSP2.PFIMJ.core.tests.ExerciseContentConverter;
 import com.PZSP2.PFIMJ.core.tests.TestContentConverter;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.Getter;
@@ -24,6 +25,7 @@ import java.util.Set;
                 @Index(columnList = "pool_id", name = "exercise_to_pool_ix"),
         }
 )
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "tests"})
 public class Exercise {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "exercises_generator")
