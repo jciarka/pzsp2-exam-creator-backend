@@ -2,12 +2,14 @@ package com.PZSP2.PFIMJ.services;
 
 import com.PZSP2.PFIMJ.db.entities.Subject;
 import com.PZSP2.PFIMJ.db.entities.Test;
+import com.PZSP2.PFIMJ.db.entities.TestExercise;
 import com.PZSP2.PFIMJ.db.entities.User;
 import com.PZSP2.PFIMJ.models.TestModel;
 import com.PZSP2.PFIMJ.models.tests.PrintableTest;
 import com.PZSP2.PFIMJ.projections.SubjectProjection;
 import com.PZSP2.PFIMJ.projections.TestProjection;
 import com.PZSP2.PFIMJ.repositories.ISubjectsRepository;
+import com.PZSP2.PFIMJ.repositories.ITestExerciseRepository;
 import com.PZSP2.PFIMJ.repositories.ITestsRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ public class TestService {
 
     @Autowired
     private ITestsRepository trepo;
+    @Autowired
+    private ITestExerciseRepository terepo;
     @Autowired
     private ISubjectsRepository sure;
     public PrintableTest getPrintableTest(long testId) {
@@ -46,6 +50,10 @@ public class TestService {
     public boolean deleteTest(Long id){
         Optional<Test> toDelete = trepo.findById(id);
         if(!toDelete.isEmpty()){
+            List<TestExercise> Exercises = terepo.findByTestId(id);
+            for (TestExercise exercise : Exercises) {
+                terepo.delete(exercise);
+            };
             trepo.delete(toDelete.get());
             return true;
         }
