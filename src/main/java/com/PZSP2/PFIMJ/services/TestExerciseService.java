@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TestExerciseService {
@@ -62,5 +63,20 @@ public class TestExerciseService {
                 .build();
 
         return teexre.save(testExercise);
+    }
+    public boolean deleteExerciseFromTest(Long referenceid){
+        Optional<TestExercise> toDelete = teexre.findById(referenceid);
+        if(!toDelete.isEmpty()){
+            teexre.delete(toDelete.get());
+            return true;
+        }
+        return false;
+    }
+
+    public boolean deleteExercisesFromTest(List<Long> references){
+        for (Long r : references){
+            deleteExerciseFromTest(r);
+        }
+        return true;
     }
 }

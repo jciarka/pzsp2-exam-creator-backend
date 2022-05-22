@@ -34,4 +34,21 @@ public class TestExerciseController {
         testExerciseService.addExercisesToTest(testId,exercises);
         return ResponseEntity.ok().body("Exercises assigned to test");
     }
+
+    @DeleteMapping(value="/delete/{reference_id}")
+    public ResponseEntity deleteExerciseFromTest(@PathVariable("reference_id") Long reference_id){
+        boolean isDeleted = testExerciseService.deleteExerciseFromTest(reference_id);
+        if (isDeleted){
+            return ResponseEntity.ok().body("Exercise deleted from test");
+        }
+        return ResponseEntity.badRequest().body("Exercise to delete not found");
+    }
+    @DeleteMapping(value="/delete/")
+    public ResponseEntity deleteExerciseFromTest(@RequestBody List<Long> references){
+        boolean isDeleted = testExerciseService.deleteExercisesFromTest(references);
+        if (isDeleted){
+            return ResponseEntity.ok().body("Exercises deleted from test");
+        }
+        return ResponseEntity.badRequest().body("Exercises to delete not found");
+    }
 }
