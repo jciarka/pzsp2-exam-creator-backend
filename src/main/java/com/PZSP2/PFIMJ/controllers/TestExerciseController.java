@@ -51,4 +51,12 @@ public class TestExerciseController {
         }
         return ResponseEntity.badRequest().body("Exercises to delete not found");
     }
+    @DeleteMapping(value="/delete/{exerciseId}/{testId}")
+    public ResponseEntity deleteExerciseFromTest(@PathVariable("exerciseId") Long exerciseId, @PathVariable("testId") Long testId){
+        boolean isDeleted = testExerciseService.deleteExerciseFromTest(exerciseId,testId);
+        if (isDeleted){
+            return ResponseEntity.ok().body("Exercise deleted from test");
+        }
+        return ResponseEntity.badRequest().body("Exercise to delete not found");
+    }
 }

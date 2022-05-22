@@ -79,4 +79,12 @@ public class TestExerciseService {
         }
         return true;
     }
+
+    public boolean deleteExerciseFromTest(Long exerciseId,Long testId){
+        List<TestExercise> toDelete = teexre.findByTestIdAndExerciseId(testId,exerciseId);
+        for (TestExercise te : toDelete){
+            teexre.delete(te);
+        }
+        return true;
+    }
 }

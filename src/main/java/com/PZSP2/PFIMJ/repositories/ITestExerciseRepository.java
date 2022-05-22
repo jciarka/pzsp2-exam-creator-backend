@@ -14,6 +14,9 @@ public interface ITestExerciseRepository extends JpaRepository<TestExercise,Long
 
     public List<TestExercise> findByTestId(long testId);
 
+    @Query("SELECT te FROM TestExercise te WHERE te.exercise.id=:exerciseId AND te.test.id=:testId")
+    public List<TestExercise> findByTestIdAndExerciseId(long testId,long exerciseId);
+
     @Query("SELECT max(tex.exerciseNumber) FROM TestExercise tex WHERE tex.test.id = :testId")
     public Optional<Integer> findLastExerciseNumberInTest(long testId);
 
