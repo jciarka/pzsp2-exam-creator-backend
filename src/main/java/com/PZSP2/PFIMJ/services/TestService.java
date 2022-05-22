@@ -29,8 +29,8 @@ public class TestService {
         return test != null ? new PrintableTest(test) : null;
     }
     
-    public List<TestProjection> getSubjectTests(long subjectId){
-        List<TestProjection> subjectTests = trepo.findBySubjectId(subjectId);
+    public List<Test> getSubjectTests(long subjectId){
+        List<Test> subjectTests = trepo.findBySubjectId(subjectId);
         return subjectTests;
     }
 

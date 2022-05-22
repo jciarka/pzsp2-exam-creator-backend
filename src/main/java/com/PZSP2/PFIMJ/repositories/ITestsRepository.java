@@ -18,7 +18,7 @@ public interface ITestsRepository extends JpaRepository<Test, Long> {
     public List<TestProjection> findTestBySubjectIdAndTitleLike(long subjectId, String name);
 
 //    @Query("SELECT new com.PZSP2.PFIMJ.projections.TestProjection(t.id,t.title,t.description,t.subject,t.exercises) FROM Test t JOIN t.subject s on s.id = :subjectId")
-    public List<TestProjection> findBySubjectId(long subjectId);
+    public List<Test> findBySubjectId(long subjectId);
 
     @Query(
             "SELECT t " +

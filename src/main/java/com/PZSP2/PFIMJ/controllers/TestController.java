@@ -1,6 +1,7 @@
 package com.PZSP2.PFIMJ.controllers;
 import java.util.List;
 
+import com.PZSP2.PFIMJ.db.entities.Test;
 import com.PZSP2.PFIMJ.models.EmptyResponse;
 import com.PZSP2.PFIMJ.models.TestModel;
 import com.PZSP2.PFIMJ.projections.TestProjection;
@@ -30,7 +31,7 @@ public class TestController extends ControllerBase{
     }
 
     @GetMapping(value="{subjectId}")
-    public List<TestProjection> getSubjectTests(@PathVariable("subjectId") long subjectId){
+    public List<Test> getSubjectTests(@PathVariable("subjectId") long subjectId){
         return this.testService.getSubjectTests(subjectId);
     }
 
