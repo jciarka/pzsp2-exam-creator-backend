@@ -35,12 +35,13 @@ public class ExerciseService {
         return exerciseList;
     }
 
-    public List<ExerciseModel> getByTittleContaining(String phrase){
-        List<ExerciseModel> exerciseModelList = exre.findByTitleContaining(phrase);
+    public List<ExerciseModel> getByTittleContainingAndPoolId(String phrase,Long poolId){
+        List<ExerciseModel> exerciseModelList = exre.findByTitleContainingAndPoolId(phrase,poolId);
         return exerciseModelList;
     }
-    public List<Exercise> getByVersionsContaining(String phrase){
-        List<Exercise> exerciseModelList = exre.findByVersionsContaining(phrase.toLowerCase());
+
+    public List<Exercise> getByVersionsContaining(String phrase,Long poolId){
+        List<Exercise> exerciseModelList = exre.findByVersionsContaining(phrase.toLowerCase(),poolId);
         return exerciseModelList;
     }
 
