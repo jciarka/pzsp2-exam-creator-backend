@@ -1,5 +1,6 @@
 package com.PZSP2.PFIMJ.controllers;
 
+import com.PZSP2.PFIMJ.db.entities.TestExercise;
 import com.PZSP2.PFIMJ.services.TestExerciseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,12 +21,18 @@ public class TestExerciseController {
 
     @PostMapping(value="/add/{exerciseId}/{testId}")
     public ResponseEntity addExerciseToTest(@PathVariable("exerciseId") Long exerciseId, @PathVariable("testId") Long testId ){
-        testExerciseService.addExerciseToTest(exerciseId,testId);
+        TestExercise testExercise = testExerciseService.addExerciseToTest(exerciseId,testId);
+        if (testExercise==null){
+            return ResponseEntity.ok().body("Exercise not assigned to test");
+        }
         return ResponseEntity.ok().body("Exercise assigned to test");
     }
     @PostMapping(value="/add/{exerciseId}/{testId}/{nr}")
     public ResponseEntity addExerciseToTest(@PathVariable("exerciseId") Long exerciseId, @PathVariable("testId") Long testId, @PathVariable("nr") Integer nr ){
-        testExerciseService.addExerciseToTest(exerciseId,testId,nr);
+        TestExercise testExercise = testExerciseService.addExerciseToTest(exerciseId,testId,nr);
+        if (testExercise==null){
+            return ResponseEntity.ok().body("Exercise not assigned to test");
+        }
         return ResponseEntity.ok().body("Exercise assigned to test");
     }
     
