@@ -23,7 +23,7 @@ public class TestExerciseController {
     public ResponseEntity addExerciseToTest(@PathVariable("exerciseId") Long exerciseId, @PathVariable("testId") Long testId ){
         TestExercise testExercise = testExerciseService.addExerciseToTest(exerciseId,testId);
         if (testExercise==null){
-            return ResponseEntity.ok().body("Exercise not assigned to test");
+            return ResponseEntity.badRequest().body("Exercise not assigned to test");
         }
         return ResponseEntity.ok().body("Exercise assigned to test");
     }
@@ -31,7 +31,7 @@ public class TestExerciseController {
     public ResponseEntity addExerciseToTest(@PathVariable("exerciseId") Long exerciseId, @PathVariable("testId") Long testId, @PathVariable("nr") Integer nr ){
         TestExercise testExercise = testExerciseService.addExerciseToTest(exerciseId,testId,nr);
         if (testExercise==null){
-            return ResponseEntity.ok().body("Exercise not assigned to test");
+            return ResponseEntity.badRequest().body("Exercise not assigned to test");
         }
         return ResponseEntity.ok().body("Exercise assigned to test");
     }

@@ -32,7 +32,7 @@ public class TestExerciseService {
 
     public TestExercise addExerciseToTest(Long exerciseId, Long testId, Integer exerciseNumber){
         List<TestExercise> exists = teexre.findByTestIdAndExerciseId(exerciseId,testId);
-        if (exists.isEmpty()){
+        if (!exists.isEmpty()){
             return null;
         }
         Exercise exercise = exre.findById(exerciseId).orElse(null);
@@ -53,7 +53,7 @@ public class TestExerciseService {
 
     public TestExercise addExerciseToTest(Long exerciseId, Long testId){
         List<TestExercise> exists = teexre.findByTestIdAndExerciseId(exerciseId,testId);
-        if (exists.isEmpty()){
+        if (!exists.isEmpty()){
             return null;
         }
         Exercise exercise = exre.findById(exerciseId).orElse(null);
