@@ -43,8 +43,7 @@ public class SubjectUser {
     @JsonIgnore
     @ManyToOne(
             fetch = FetchType.LAZY,
-            optional = false,
-            cascade = CascadeType.REMOVE
+            optional = false
     )
     @JoinColumn(
             name = "user_id",
@@ -57,8 +56,7 @@ public class SubjectUser {
 
     @ManyToOne(
             fetch = FetchType.LAZY,
-            optional = false,
-            cascade = CascadeType.REMOVE
+            optional = false
     )
     @JoinColumn(
             name = "subject_id",
