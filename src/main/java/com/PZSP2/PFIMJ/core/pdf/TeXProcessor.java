@@ -17,7 +17,7 @@ import static org.scilab.forge.jlatexmath.TeXConstants.ALIGN_CENTER;
 
 
 public class TeXProcessor {
-    private static final String REGEX = "\\$\\$([^\\s][^$]*[^\\s])?\\$\\$";
+    private static final String REGEX = "(^|[^\\\\]{1})\\$\\$([^\\s][^$]*[^\\s])?\\$\\$";
     private static final Pattern sPattern = Pattern.compile( REGEX );
     private static final Component sComponent = new Component() {};
 
