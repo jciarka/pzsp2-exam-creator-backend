@@ -15,19 +15,20 @@ import com.PZSP2.PFIMJ.repositories.ITestsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
+
 import java.util.Optional;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class TestService {
 
-    @Autowired
-    private ITestsRepository trepo;
-    @Autowired
-    private ITestExerciseRepository terepo;
-    @Autowired
-    private ISubjectsRepository sure;
+    private final ITestsRepository trepo;
+    private final ITestExerciseRepository terepo;
+    private final ISubjectsRepository sure;
+
     public PrintableTest getPrintableTest(long testId) {
         Test test = trepo.findByIdWithSubjectAndTests(testId).orElse(null);
         return test != null ? new PrintableTest(test) : null;
