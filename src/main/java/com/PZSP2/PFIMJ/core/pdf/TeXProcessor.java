@@ -11,7 +11,9 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.io.*;
 
 import static org.scilab.forge.jlatexmath.TeXConstants.ALIGN_CENTER;
 
@@ -21,6 +23,8 @@ public class TeXProcessor {
     private static final Pattern sPattern = Pattern.compile( REGEX );
     private static final Component sComponent = new Component() {};
 
+    private static final String escapesREGEX = "\\\\\\$\\$";
+    private static final Pattern escapesPattern = Pattern.compile( escapesREGEX );
 
     private String toSvg( final String tex ) {
         final var len = tex.length();
@@ -65,10 +69,29 @@ public class TeXProcessor {
 
     public String apply( String markdown ) {
         try {
-            return sPattern.matcher( markdown ).replaceAll(
+            String withLatex = sPattern.matcher( markdown ).replaceAll(
                     ( result ) -> toImg( result.group() ) );
+            return replaceAllNoRegex(withLatex, "\\$$", "$$");
         } catch( final Exception ex ) {
             return markdown;
         }
+    }
+
+    private String replaceAllNoRegex(final String text, final String phrase, final String newPhrase) {
+        StringBuilder builder = new StringBuilder();
+
+        int oldIndex = 0;
+        int index = text.indexOf(phrase, oldIndex);
+
+        while (index >= 0) {
+            builder.append(text.substring(oldIndex, index) + newPhrase);
+
+            index += phrase.length();
+            oldIndex = index;
+            index = text.indexOf(phrase, oldIndex);
+        }
+
+        builder.append(text.substring(oldIndex, text.length()));
+        return builder.toString();
     }
 }
