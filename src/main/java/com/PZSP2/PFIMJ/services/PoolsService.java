@@ -8,6 +8,7 @@ import com.PZSP2.PFIMJ.models.PoolModel;
 import com.PZSP2.PFIMJ.repositories.IExercisesRepository;
 import com.PZSP2.PFIMJ.repositories.IPoolsRepository;
 import com.PZSP2.PFIMJ.repositories.ISubjectsRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,14 +16,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class PoolsService {
 
-    @Autowired
-    IPoolsRepository pore;
-    @Autowired
-    ISubjectsRepository sure;
-    @Autowired
-    IExercisesRepository exre;
+    private final IPoolsRepository pore;
+    private final ISubjectsRepository sure;
+    private final IExercisesRepository exre;
 
     public Pool addPool(PoolModel poolModel){
         Pool pool = new Pool();
