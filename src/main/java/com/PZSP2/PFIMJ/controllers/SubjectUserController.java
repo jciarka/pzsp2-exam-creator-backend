@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value="api/subjectuser")
@@ -41,7 +42,7 @@ public class SubjectUserController extends ControllerBase {
 
         Long adminId = getAuthenticatedUser().getId();
         SubjectUser admin = subjectUsersService.get(adminId, subjectId);
-        if (admin == null || !admin.getRoles().contains("ADMIN")){
+        if (admin == null || !admin.getRoles().stream().anyMatch(x -> x.getName().equals("ADMIN"))){
             return new ResponseEntity<>(
                 new EmptyResponse(false, Arrays.asList("You dont have permissions to remove user from subject")),
                 HttpStatus.UNAUTHORIZED);

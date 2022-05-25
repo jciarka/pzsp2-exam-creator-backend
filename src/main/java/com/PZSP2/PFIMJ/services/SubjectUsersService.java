@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SubjectUsersService {
@@ -73,6 +74,11 @@ public class SubjectUsersService {
     {
         SubjectUser sUser = surepo.findByUserIdAndSubjectId(userId, subjectId).orElse(null);
         if (sUser == null) return;
+
+        List<String> roles = sUser.getRoles().stream().map(x -> x.getName()).collect(Collectors.toList());
+        for (String role : roles) {
+            removeUserFromRole(userId, subjectId, role);
+        }
 
         surepo.delete(sUser);
     }

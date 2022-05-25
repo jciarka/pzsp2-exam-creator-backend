@@ -49,7 +49,7 @@ public class TestController extends ControllerBase{
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping(value="/delete/{testId}")
+    @DeleteMapping(value="{testId}")
     public ResponseEntity<EmptyResponse> deleteTest(@PathVariable Long testId){
         if (!isAuthenticated()){
             return new ResponseEntity<>(new EmptyResponse(false), HttpStatus.UNAUTHORIZED);
