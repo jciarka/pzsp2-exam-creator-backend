@@ -1,4 +1,4 @@
-package com.PZSP2.PFIMJ;
+package com.PZSP2.PFIMJ.services;
 
 import com.PZSP2.PFIMJ.repositories.ISubjectsRepository;
 import com.PZSP2.PFIMJ.repositories.ITestExerciseRepository;

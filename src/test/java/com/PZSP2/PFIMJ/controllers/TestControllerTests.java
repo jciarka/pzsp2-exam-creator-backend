@@ -1,4 +1,4 @@
-package com.PZSP2.PFIMJ;
+package com.PZSP2.PFIMJ.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
