@@ -25,16 +25,10 @@ import java.util.Set;
 @NoArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "subject"})
 public class SubjectUser {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subjectusers_generator")
-//    private Long id;
 
     public SubjectUser(User user, Subject subject){
         setUser(user);
         setSubject(subject);
-//        id = new SubjectUserPK();
-//        id.setSubjectId(subject.getId());
-//        id.setUserId(user.getId());
     }
 
     @EmbeddedId

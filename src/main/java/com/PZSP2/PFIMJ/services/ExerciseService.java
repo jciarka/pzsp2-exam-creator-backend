@@ -30,7 +30,6 @@ public class ExerciseService {
         return exerciseList;
     }
     public List<ExerciseModel> getExercisesFrom(Long testId){
-        System.out.println("dziala");
         List<ExerciseModel> exerciseList = exre.findByTestId(testId);
         return exerciseList;
     }

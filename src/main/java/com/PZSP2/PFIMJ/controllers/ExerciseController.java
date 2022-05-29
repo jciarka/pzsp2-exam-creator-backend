@@ -48,9 +48,6 @@ public class ExerciseController extends ControllerBase {
 
     @PostMapping(value="/add", consumes="application/json")
     public ResponseEntity createExercise(@RequestBody ExerciseModel exerciseModel){
-//        if (!isAuthenticated()){
-//            return Response.GetNegative((SubjectProjection)null, HttpStatus.UNAUTHORIZED);
-//        }
         System.out.println(exerciseModel.toString());
         Exercise exercise = exerciseService.createExercise(exerciseModel);
         if(exercise==null){
@@ -61,9 +58,6 @@ public class ExerciseController extends ControllerBase {
 
     @DeleteMapping(value="/delete/{id}")
     public ResponseEntity deleteExercise(@PathVariable("id") Long id){
-//        if (!isAuthenticated()){
-//            return new ResponseEntity<>(new EmptyResponse(false), HttpStatus.UNAUTHORIZED);
-//        }
         boolean isDeleted = exerciseService.deleteExercise(id);
         if (isDeleted){
             return ResponseEntity.ok().body("Exercise deleted");
@@ -73,9 +67,6 @@ public class ExerciseController extends ControllerBase {
 
     @PutMapping(value = "/{exerciseId}/title", consumes = "application/json")
     public ResponseEntity changeTittle(@PathVariable("exerciseId") Long id, @RequestBody ExerciseModel exercise) {
-//        if (!isAuthenticated()){
-//            return new ResponseEntity<>(new EmptyResponse(false), HttpStatus.UNAUTHORIZED);
-//        }
         boolean isUpdated = exerciseService.changeTitle(id, exercise.getTitle());
         if (!isUpdated) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -85,9 +76,6 @@ public class ExerciseController extends ControllerBase {
 
     @PutMapping(value = "/{exerciseId}/type", consumes = "application/json")
     public ResponseEntity changeType(@PathVariable("exerciseId") Long id, @RequestBody ExerciseModel exercise) {
-//        if (!isAuthenticated()){
-//            return new ResponseEntity<>(new EmptyResponse(false), HttpStatus.UNAUTHORIZED);
-//        }
         boolean isUpdated = exerciseService.changeType(id, exercise.getType());
         if (!isUpdated) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -97,9 +85,6 @@ public class ExerciseController extends ControllerBase {
 
     @PutMapping(value = "/{exerciseId}/points", consumes = "application/json")
     public ResponseEntity changePoints(@PathVariable("exerciseId") Long id, @RequestBody ExerciseModel exercise) {
-//        if (!isAuthenticated()){
-//            return new ResponseEntity<>(new EmptyResponse(false), HttpStatus.UNAUTHORIZED);
-//        }
         boolean isUpdated = exerciseService.changePoints(id, exercise.getPoints());
         if (!isUpdated) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -109,9 +94,6 @@ public class ExerciseController extends ControllerBase {
 
     @PutMapping(value = "/{exerciseId}/versions", consumes = "application/json")
     public ResponseEntity changeVersions(@PathVariable("exerciseId") Long id, @RequestBody ExerciseModel exercise) {
-//        if (!isAuthenticated()){
-//            return new ResponseEntity<>(new EmptyResponse(false), HttpStatus.UNAUTHORIZED);
-//        }
         boolean isUpdated = exerciseService.changeExerciseVersion(id, exercise.getVersions());
         if (!isUpdated) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

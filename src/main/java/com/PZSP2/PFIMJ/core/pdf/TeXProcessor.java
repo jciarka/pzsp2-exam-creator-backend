@@ -21,24 +21,7 @@ import static org.scilab.forge.jlatexmath.TeXConstants.ALIGN_CENTER;
 public class TeXProcessor {
     private static final String REGEX = "(^|[^\\\\]{1})\\$\\$([^\\s][^$]*[^\\s])?\\$\\$";
     private static final Pattern sPattern = Pattern.compile( REGEX );
-    private static final Component sComponent = new Component() {};
-
     private static final String escapesREGEX = "\\\\\\$\\$";
-    private static final Pattern escapesPattern = Pattern.compile( escapesREGEX );
-
-    private String toSvg( final String tex ) {
-        final var len = tex.length();
-        assert len > 5;
-
-        final var formula = new TeXFormula( tex.substring( 2, len - 2 ) );
-        final var icon = formula.createTeXIcon( ALIGN_CENTER, 20f );
-        icon.setInsets( new Insets( 10, 0, 0, 4 ) );
-        final var width = icon.getIconWidth();
-        final var height = icon.getIconHeight();
-        final var graphics = new SVGGraphics2D( width, height );
-        icon.paintIcon( sComponent, graphics, 0, 0 );
-        return graphics.getSVGElement();
-    }
 
     private String toImg(String latex) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
